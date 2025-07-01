@@ -1,0 +1,91 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  padding: 1rem;
+  width: 70%;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #374150;
+  font-weight: 600;
+  padding: 0 1.5rem;
+}
+
+nav a:hover {
+  color: #5dbf81;
+}
+
+.nav-btn {
+  padding: 5px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--textColor);
+  visibility: hidden;
+  opacity: 0;
+  font-size: 1.8rem;
+}
+
+span {
+  margin-left: 3rem;
+}
+
+@media only screen and (max-width: 1100px) {
+  .nav-btn {
+    visibility: visible;
+    opacity: 1;
+  }
+  span {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+  header nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5rem;
+    gap: 1.5rem;
+    background-color: #484450;
+    color: #fff;
+    transition: 0.5s ease;
+    transform: translateX(100vh);
+  }
+
+  header .responsive_nav {
+    transform: none;
+  }
+
+  nav .nav-close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  nav a {
+    color: #fff;
+    font-size: 1.5rem;
+  }
+
+  nav a:hover {
+    color: #5dbf81;
+  }
+}
