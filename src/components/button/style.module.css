@@ -6,10 +6,7 @@
   font-weight: 600;
   padding: 0.8rem 1.3rem;
   text-decoration: none;
-}
-
-.button:hover {
-  background-color: #f7ebeb;
+  background-color: #ffffff;
 }
 
 .icon {
