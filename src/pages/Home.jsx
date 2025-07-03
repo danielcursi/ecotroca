@@ -32,6 +32,10 @@ export default function Home() {
           <p>Diversos Produtos</p>
         </article>
       </section>
+      <section className="section-cards">
+        <h1>Itens em Destaque</h1>
+        <p>Descubra itens únicos disponíveis para troca em sua região</p>
+      </section>
     </>
   );
 }

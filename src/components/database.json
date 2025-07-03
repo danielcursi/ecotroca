@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "title": "Bicicleta Urbana",
+    "description": "Bicicleta em ótimo estado, pouco usada. Ideal para transporte urbano sustentável.",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
+    "location": "São Paulo, SP",
+    "category": "Transporte"
+  },
+  {
+    "id": "2",
+    "title": "Livros de Programação",
+    "description": "Coleção de livros técnicos sobre desenvolvimento web e mobile.",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+    "location": "Rio de Janeiro, RJ",
+    "category": "Educação"
+  },
+  {
+    "id": "3",
+    "title": "Roupas Vintage",
+    "description": "Peças únicas e bem conservadas. Moda sustentável e consciente.",
+    "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400",
+    "location": "Belo Horizonte, MG",
+    "category": "Moda"
+  },
+  {
+    "id": "4",
+    "title": "Plantas e Vasos",
+    "description": "Mudas de plantas ornamentais e vasos decorativos para casa.",
+    "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400",
+    "location": "Curitiba, PR",
+    "category": "Casa & Jardim"
+  }
+]
