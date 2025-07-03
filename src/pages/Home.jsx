@@ -1,5 +1,6 @@
 import { FaSearch, FaRecycle, FaUsers, FaBoxOpen } from "react-icons/fa";
 import Button from "../components/button/Button";
+import Card from "../components/card/Card";
 
 export default function Home() {
   return (
@@ -32,9 +33,10 @@ export default function Home() {
           <p>Diversos Produtos</p>
         </article>
       </section>
-      <section className="section-cards">
+      <section className="section-emphasis">
         <h1>Itens em Destaque</h1>
         <p>Descubra itens únicos disponíveis para troca em sua região</p>
+        <section className="section-cards"></section>
       </section>
     </>
   );

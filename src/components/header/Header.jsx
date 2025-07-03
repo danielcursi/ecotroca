@@ -22,7 +22,7 @@ export default function Header() {
 
       <nav ref={navRef}>
         <Link to="/">Inicio</Link>
-        <Link to="/item">Adicionar item</Link>
+        <Link to="/item">Produtos</Link>
         <Link to="/profile">Meu Perfil</Link>
         <span>
           <Button to={"/Login"} text={"Entrar"} icon={faArrowRightToBracket} />
