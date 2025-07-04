@@ -3,31 +3,31 @@
     "id": "1",
     "title": "Bicicleta Urbana",
     "description": "Bicicleta em ótimo estado, pouco usada. Ideal para transporte urbano sustentável.",
-    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
+    "image": "https://plus.unsplash.com/premium_photo-1678718713393-2b88cde9605b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "location": "São Paulo, SP",
     "category": "Transporte"
   },
   {
     "id": "2",
-    "title": "Livros de Programação",
-    "description": "Coleção de livros técnicos sobre desenvolvimento web e mobile.",
-    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+    "title": "Notebook",
+    "description": "Macbook Air Processador M4 da Apple com CPU 10‑core, 16GB Memória, 256 GB) ",
+    "image": "https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "location": "Rio de Janeiro, RJ",
-    "category": "Educação"
+    "category": "Eletronico"
   },
   {
     "id": "3",
-    "title": "Roupas Vintage",
-    "description": "Peças únicas e bem conservadas. Moda sustentável e consciente.",
-    "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400",
+    "title": "Iphone 11",
+    "description": "Apple Iphone 11 (128 Gb) - Preto - novo - 4 GB Tela LCD Liquid Retina HD de 6,1 polegadas.",
+    "image": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "location": "Belo Horizonte, MG",
     "category": "Moda"
   },
   {
     "id": "4",
-    "title": "Plantas e Vasos",
-    "description": "Mudas de plantas ornamentais e vasos decorativos para casa.",
-    "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400",
+    "title": "Camisa drift",
+    "description": "Logo Bordado no peito esquerdo - com reforço de ombro a ombro com viés Malha 100% Algodão.",
+    "image": "https://images.unsplash.com/photo-1714070700737-24acfe6b957c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "location": "Curitiba, PR",
     "category": "Casa & Jardim"
   }
