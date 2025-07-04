@@ -1,3 +1,3 @@
 export default function NewItem() {
-  return <h1>Cadastrar item</h1>;
+  return <h1>item</h1>;
 }

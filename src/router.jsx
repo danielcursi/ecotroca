@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NewItem from "./pages/NewItem";
 import MyProfiler from "./pages/MyProfile";
+import ItemList from "./pages/ItemList";
+import RegisterItem from "./pages/RegisterItem";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +22,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/item",
-        element: <NewItem />,
+        children: [
+          {
+            index: true,
+            element: <ItemList />, // Componente que lista todos os itens
+          },
+          {
+            path: "/item/:id",
+            element: <NewItem />, // Componente que mostra o item pelo ID
+          },
+          {
+            path: "/item/register",
+            element: <RegisterItem />, // Componente que cadastra o item
+          },
+        ],
       },
       {
         path: "/profile",

@@ -1,0 +1,51 @@
+.card {
+  background-color: #f9fafb;
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.137);
+  border-radius: 10px;
+  height: 24rem;
+  width: 18rem;
+}
+
+.img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 50%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.title {
+  font-size: 1rem;
+  margin: 1rem 1rem 0.7rem 1rem;
+}
+
+.card .description {
+  color: #393c41;
+  font-size: 0.9rem;
+  text-align: start;
+  margin-left: 1rem;
+}
+
+.location {
+  margin: 0.7rem 1rem 1rem 1rem;
+  font-size: 0.8rem;
+}
+
+.button {
+  background-color: #0f1729;
+  border: none;
+  border-radius: 10px;
+  color: #f9fafb;
+  cursor: pointer;
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  width: 90%;
+  margin: auto;
+  padding: 0.7rem;
+}
+
+.button:hover {
+  background-color: #0f1729de;
+}
