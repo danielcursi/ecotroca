@@ -171,11 +171,134 @@
   transform: scale(1.05);
 }
 
+.register {
+  background-color: #f1f4fa;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 53rem;
+  padding: 2rem 7rem;
+}
+
+.register .button-arrow {
+  border: none;
+  background-color: #f1f4fa;
+  cursor: pointer;
+  display: flex;
+  gap: 0.8rem;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.register h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.register p {
+  color: #44484e;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.section-register {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.form {
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+  max-width: 32rem;
+}
+
+.form h3 {
+  margin-bottom: 1.2rem;
+}
+
+.form label {
+  color: #44484e;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form .description,
+.form input {
+  border: 1px solid #82899354;
+  border-radius: 3px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.form .section-select {
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  width: 100%;
+}
+
+.form .section-select select {
+  border: 1px solid #828993;
+  border-radius: 5px;
+  background-color: #fff;
+  width: 100%;
+  margin: 0.7rem 0;
+  padding: 0.3rem 0;
+}
+
+.photo {
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  max-width: 17rem;
+  height: 10rem;
+}
+
+.photo p {
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+}
+
+.button-form {
+  background-color: #059769;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.301);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.6rem;
+}
+
 @media only screen and (max-width: 907px) {
   .banner-input {
     width: auto;
   }
   .section-infos {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .register h1,
+  p {
+    padding: 0 1rem;
+  }
+
+  .form {
+    width: 19rem;
+  }
+
+  .form .section-select {
     flex-direction: column;
   }
 }
