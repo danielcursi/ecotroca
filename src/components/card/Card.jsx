@@ -2,7 +2,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import style from "./style.module.css";
 
-export default function Card({ img, title, description, location, id }) {
+export default function Card({ img, title, description, location, rota }) {
   const navigate = useNavigate();
   return (
     <div className={style.card}>
@@ -13,7 +13,7 @@ export default function Card({ img, title, description, location, id }) {
         <CiLocationOn />
         {location}
       </div>
-      <button onClick={() => navigate(`item/${id}`)} className={style.button}>
+      <button onClick={() => navigate(rota)} className={style.button}>
         Ver Detalhes
       </button>
     </div>

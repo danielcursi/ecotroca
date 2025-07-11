@@ -5,6 +5,7 @@ import data from "../components/database.json";
 import Card from "../components/card/Card";
 
 export default function Home() {
+  const allProducts = data.users.flatMap((user) => user.products);
   return (
     <>
       <section className="banner-home">
@@ -39,7 +40,12 @@ export default function Home() {
         <h1>Itens em Destaque</h1>
         <p>Descubra itens únicos disponíveis para troca em sua região</p>
         <section className="section-cards">
-          {data.map((item, index) =>
+          {/* {data.users.map((user) =>
+            user.products.map((product) => (
+              <Card key={product.id} img={product.image} />
+            ))
+          )} */}
+          {allProducts.map((item, index) =>
             index < 4 ? (
               <Card
                 key={item.id}
@@ -47,6 +53,7 @@ export default function Home() {
                 title={item.title}
                 description={item.description}
                 location={item.location}
+                rota={`item/${item.id}`}
               />
             ) : null
           )}

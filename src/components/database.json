@@ -1,34 +1,80 @@
-[
-  {
-    "id": "1",
-    "title": "Bicicleta Urbana",
-    "description": "Bicicleta em ótimo estado, pouco usada. Ideal para transporte urbano sustentável.",
-    "image": "https://plus.unsplash.com/premium_photo-1678718713393-2b88cde9605b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "location": "São Paulo, SP",
-    "category": "Transporte"
-  },
-  {
-    "id": "2",
-    "title": "Notebook",
-    "description": "Macbook Air Processador M4 da Apple com CPU 10‑core, 16GB Memória, 256 GB) ",
-    "image": "https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "location": "Rio de Janeiro, RJ",
-    "category": "Eletronico"
-  },
-  {
-    "id": "3",
-    "title": "Iphone 11",
-    "description": "Apple Iphone 11 (128 Gb) - Preto - novo - 4 GB Tela LCD Liquid Retina HD de 6,1 polegadas.",
-    "image": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "location": "Belo Horizonte, MG",
-    "category": "Moda"
-  },
-  {
-    "id": "4",
-    "title": "Camisa drift",
-    "description": "Logo Bordado no peito esquerdo - com reforço de ombro a ombro com viés Malha 100% Algodão.",
-    "image": "https://images.unsplash.com/photo-1714070700737-24acfe6b957c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "location": "Curitiba, PR",
-    "category": "Casa & Jardim"
-  }
-]
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "usuario1",
+      "password": "senha1",
+      "products": [
+        {
+          "id": "1",
+          "title": "Bicicleta Urbana",
+          "description": "Bicicleta em ótimo estado, pouco usada. Ideal para transporte urbano sustentável.",
+          "image": "https://plus.unsplash.com/premium_photo-1678718713393-2b88cde9605b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "location": "São Paulo, SP",
+          "category": "Transporte"
+        },
+        {
+          "id": "2",
+          "title": "Notebook",
+          "description": "Macbook Air Processador M4 da Apple com CPU 10‑core, 16GB Memória, 256 GB) ",
+          "image": "https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "location": "Rio de Janeiro, RJ",
+          "category": "Eletronico"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "usuario2",
+      "password": "senha2",
+      "products": [
+        {
+          "id": "3",
+          "title": "Iphone 11",
+          "description": "Apple Iphone 11 (128 Gb) - Preto - novo - 4 GB Tela LCD Liquid Retina HD de 6,1 polegadas.",
+          "image": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "location": "Belo Horizonte, MG",
+          "category": "Moda"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "username": "usuario3",
+      "password": "senha3",
+      "products": [
+        {
+          "id": "4",
+          "title": "Camisa drift",
+          "description": "Logo Bordado no peito esquerdo - com reforço de ombro a ombro com viés Malha 100% Algodão.",
+          "image": "https://images.unsplash.com/photo-1714070700737-24acfe6b957c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "location": "Curitiba, PR",
+          "category": "Casa & Jardim"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "username": "usuario3",
+      "password": "senha3",
+      "products": [
+        {
+          "id": "5",
+          "title": "Camisa drift",
+          "description": "Logo Bordado no peito esquerdo - com reforço de ombro a ombro com viés Malha 100% Algodão.",
+          "image": "https://images.unsplash.com/photo-1714070700737-24acfe6b957c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "location": "Curitiba, PR",
+          "category": "Casa & Jardim"
+        },
+        {
+          "id": "6",
+          "title": "Camisa drift",
+          "description": "Logo Bordado no peito esquerdo - com reforço de ombro a ombro com viés Malha 100% Algodão.",
+          "image": "https://images.unsplash.com/photo-1714070700737-24acfe6b957c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "location": "Curitiba, PR",
+          "category": "Casa & Jardim"
+        }
+      ]
+    }
+  ]
+}

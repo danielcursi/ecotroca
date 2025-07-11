@@ -60,7 +60,11 @@ export default function RegisterItem() {
     <>
       <section className="register">
         <section>
-          <button onClick={voltarPagina} className="button-arrow">
+          <button
+            onClick={voltarPagina}
+            className="button-arrow"
+            style={{ marginBottom: "1rem" }}
+          >
             <FaArrowLeft />
             Voltar
           </button>
