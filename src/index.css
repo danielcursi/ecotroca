@@ -129,16 +129,6 @@
   gap: 2rem;
 }
 
-.section-cards div {
-  transition: all 0.3s ease;
-}
-
-.section-cards div:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-}
-
 .footer {
   background-color: #111827;
   color: #e4e4e4;
@@ -180,14 +170,17 @@
   padding: 2rem 7rem;
 }
 
+.button-arrow,
 .register .button-arrow {
   border: none;
-  background-color: #f1f4fa;
+  border-radius: 10px;
+  background-color: #059769;
+  color: #f1f4fa;
   cursor: pointer;
   display: flex;
   gap: 0.8rem;
   font-weight: 600;
-  padding: 1rem;
+  padding: 0.8rem 1.3rem;
 }
 
 .register h1 {
@@ -277,6 +270,22 @@
   cursor: pointer;
   font-weight: 600;
   padding: 0.6rem;
+}
+
+.buttonProduct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.allCards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 @media only screen and (max-width: 907px) {
