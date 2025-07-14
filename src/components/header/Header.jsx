@@ -15,9 +15,11 @@ export default function Header() {
   };
   return (
     <header>
-      <div className="logoContainer">
+      <div className="logoContainer" >
+        <Link to = "/" className="noStyleLink" >
         <img src={logo} alt="Ecotroca logo" className="logo" />
         <h2>EcoTroca</h2>
+        </Link>
       </div>
 
       <nav ref={navRef}>
