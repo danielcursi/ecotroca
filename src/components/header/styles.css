@@ -8,6 +8,15 @@ header {
 }
 
 .logoContainer {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.noStyleLink{
+   color: inherit !important;
+  text-decoration: none !important;
   display: flex;
   align-items: center;
 }
