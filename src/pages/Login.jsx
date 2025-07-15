@@ -2,7 +2,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash, FaArrowLeft } from "react-icons/fa";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo-transparente.png";
 import Button from "../components/button/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,15 +26,6 @@ export default function Login() {
       <h1>
         <img src={logo} alt="" style={{ width: "4rem" }} /> EcoTroca
       </h1>
-      <p>Entre na sua conta</p>
-      <button
-        onClick={voltarPagina}
-        className="button-arrow"
-        style={{ marginBottom: "1rem" }}
-      >
-        <FaArrowLeft />
-        Voltar
-      </button>
       <form className="form-login">
         <section className="form-title">
           <h2>Bem-vindo de volta</h2>
@@ -63,10 +54,18 @@ export default function Login() {
             {icon ? <IoEyeOutline /> : <FaRegEyeSlash />}
           </button>
         </div>
-        <button>Entrar</button>
-        <p>Não tem uma conta?</p>
-        <Button to={"/Login"} text={"Cadastre-se gratuitamente"} />
+        <button className="btn-login">Entrar</button>
+        <p style={{ color: "#788594" }}>Não tem uma conta?</p>
+        <Button to={"/newAccount"} text={"Cadastre-se gratuitamente"} />
       </form>
+      <button
+        onClick={voltarPagina}
+        className="button-arrow"
+        style={{ marginBottom: "1rem" }}
+      >
+        <FaArrowLeft />
+        Voltar
+      </button>
     </section>
   );
 }
