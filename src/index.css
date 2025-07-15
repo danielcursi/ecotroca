@@ -182,7 +182,7 @@
   font-weight: 600;
   padding: 0.8rem 1.3rem;
 }
-.button-arrow-item{
+.button-arrow-item {
   background-color: transparent;
   border: none;
   border-radius: 10px;
@@ -302,9 +302,18 @@
   background-color: #d8fae8;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+}
+
+.login h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .form-login {
@@ -315,6 +324,7 @@
   flex-direction: column;
   max-width: 35rem;
   padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .form-title h2 {
@@ -344,6 +354,22 @@
 .login-input svg {
   font-size: 1.3rem;
   color: #828993;
+}
+
+.login .btn-login {
+  background-color: #059769;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.99rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.login .btn-login:hover {
+  background-color: #059769ad;
 }
 
 .svgEye {
@@ -390,5 +416,9 @@
 
   .form .section-select {
     flex-direction: column;
+  }
+
+  .form-login {
+    max-width: 18rem;
   }
 }
