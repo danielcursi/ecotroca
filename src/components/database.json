@@ -5,6 +5,8 @@
       "username": "usuario1",
       "email": "usuario1@email.com",
       "password": "senha1",
+      "number": "(88)99999-9999",
+      "local": "Fortaleza, CE",
       "products": [
         {
           "id": "1",
@@ -29,6 +31,8 @@
       "username": "usuario2",
       "email": "usuario2@email.com",
       "password": "senha2",
+      "number": "(88)99999-8888",
+      "local": "Iguatu, CE",
       "products": [
         {
           "id": "3",
@@ -45,6 +49,8 @@
       "username": "usuario3",
       "email": "usuario3@email.com",
       "password": "senha3",
+      "number": "(88)99999-7777",
+      "local": "São Paulo, SP",
       "products": [
         {
           "id": "4",
@@ -61,13 +67,15 @@
       "username": "usuario4",
       "email": "usuario4@email.com",
       "password": "senha4",
+      "number": "(88)99999-6666",
+      "local": "Curitiba, PR",
       "products": [
         {
           "id": "5",
           "title": "Violão",
           "description": "Violão em ótimo estado de conservação com todos os bolsa e capo incluso!",
           "image": "https://images.pexels.com/photos/3428498/pexels-photo-3428498.jpeg?_gl=1*1ehev08*_ga*MTUyNDg1Njc3Ni4xNzI1NDk1MDc4*_ga_8JE65Q40S6*czE3NTI2Mjk0NDIkbzExJGcxJHQxNzUyNjI5NDUzJGo0OSRsMCRoMA..",
-          "location": "Iguatu, CE",
+          "location": "Curitiba, PR",
           "category": "Casa & Jardim"
         },
         {
@@ -85,6 +93,8 @@
       "username": "usuario5",
       "email": "usuario5@email.com",
       "password": "senha5",
+      "number": "(88)99999-5555",
+      "local": "São Paulo, SP",
       "products": [
         {
           "id": "7",
@@ -109,6 +119,8 @@
       "username": "usuario6",
       "email": "usuario6@email.com",
       "password": "senha6",
+      "number": "(88)99999-4444",
+      "local": "Belo Horizonte, MG",
       "products": [
         {
           "id": "9",
@@ -133,6 +145,8 @@
       "username": "usuario7",
       "email": "usuario7@email.com",
       "password": "senha7",
+      "number": "(88)99999-3333",
+      "local": "Florianópolis, SC",
       "products": [
         {
           "id": "11",

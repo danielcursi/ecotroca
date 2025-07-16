@@ -25,6 +25,7 @@ export default function Login() {
 
     if (foundUser) {
       // Se um usuário foi encontrado
+      localStorage.setItem("tokenUser", foundUser.id);
       alert(`Bem-vindo, ${foundUser.email}!\nRedirecionando para o perfil...`);
       navigate("/profile");
     } else {

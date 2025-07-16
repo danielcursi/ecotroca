@@ -451,12 +451,59 @@
   background-color: #059769c0;
 }
 
+.profile {
+  background-color: #f9fafb;
+  display: flex;
+  height: 90vh;
+}
+
+.profile .card-perfil {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 20%;
+}
+
+.profile .card-perfil h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile .card-perfil p {
+  color: #44484e;
+  padding: 0.4rem;
+}
+
+.profile .card-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0 2rem;
+  margin-top: 4rem;
+  width: 80%;
+}
+
 @media only screen and (max-width: 907px) {
   .banner-input {
     width: auto;
   }
   .section-infos {
     flex-direction: column;
+  }
+
+  .profile {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile .card-perfil {
+    width: 100vw;
+  }
+
+  .profile .card-item {
+    justify-content: center;
   }
 }
 
