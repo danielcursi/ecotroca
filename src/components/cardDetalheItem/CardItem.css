@@ -1,12 +1,12 @@
 .cardItem {
- 
   padding: 10px;
   margin: 10px;
   background-color: #f9fafb;
   box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.137);
   border-radius: 10px;
   overflow: hidden; 
-  width: 300px;
+  width: 100%;
+  height: auto;
   transition: all 0.3s ease;
 }
 
@@ -28,11 +28,11 @@
 }
 
 .title {
-  font-size: 1rem;
+  font-size: 2rem;
   margin: 1rem 1rem 0.7rem 1rem;
 }
 
-.cardItem .description {
+.cardItem  {
   color: #393c41;
   font-size: 0.9rem;
   text-align: start;
@@ -40,6 +40,36 @@
   display: inline-block;
   margin-right: 10px;
 }
+
+.box {
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px;
+  margin: 2px;
+  gap: 10px;
+}
+
+.category{
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+ .description{
+   padding: 2px;
+   margin-left: 16px;
+ }
+
 
 
 

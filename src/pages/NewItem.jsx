@@ -1,10 +1,9 @@
 import {useParams} from "react-router-dom";
 import {users} from '../components/database.json';
-import CardItem from "../components/card/CardItem";
-import CardDono from "../components/card/CardDono";
+import CardItem from "../components/cardDetalheItem/CardItem";
+import CardDono from "../components/cardDetalheItem/CardDono";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-
 
 export default function NewItem(){
   
