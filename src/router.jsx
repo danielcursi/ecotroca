@@ -6,6 +6,7 @@ import NewItem from "./pages/NewItem";
 import MyProfiler from "./pages/MyProfile";
 import ItemList from "./pages/ItemList";
 import RegisterItem from "./pages/RegisterItem";
+import NewUser from "./pages/NewUser";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/newUser",
+    element: <NewUser />,
   },
 ]);
 

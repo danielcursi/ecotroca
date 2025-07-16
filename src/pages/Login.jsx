@@ -56,7 +56,7 @@ export default function Login() {
         </div>
         <button className="btn-login">Entrar</button>
         <p style={{ color: "#788594" }}>Não tem uma conta?</p>
-        <Button to={"/newAccount"} text={"Cadastre-se gratuitamente"} />
+        <Button to={"/newUser"} text={"Cadastre-se gratuitamente"} />
       </form>
       <button
         onClick={voltarPagina}
