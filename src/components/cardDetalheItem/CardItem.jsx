@@ -7,13 +7,17 @@ export default function CardItem({ img, title, description, location, category }
     <div className="cardItem">
       <img src={img} alt={title} className="img" />
 
-      <h3 className="title">{title}</h3>
+      <h1 className="title">{title}</h1>
+      <div className = "box">
       <p className="category">{category}</p>
-      <div className="location">
+       <div className="location">
         <CiLocationOn />
         <span>{location}</span>
       </div>
-      <p style={{ fontWeight: "bold" }}>Descrição</p>
+      </div>
+<p style={{ fontWeight: "bold", marginLeft: "16px", marginTop:"10px", fontSize: "20px" }}>
+  Descrição
+</p>
       <p className="description">{description}</p>
     </div>
   );

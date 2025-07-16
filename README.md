@@ -1,12 +1,22 @@
-# React + Vite
+# PROJETO: ♻️ ECOTROCA
+O EcoTroca é uma plataforma que permite cadastrar, visualizar e propor de forma prática e sustentável. A ideia é promover o reuso consciente de itens por meio de um sistema simples de cadastro, visualização e interação entre usuários.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🌐 Funcionalidades
+- Login de usuários
+- Cadastro de itens para troca ou venda
+- Página de listagem e detalhes dos produtos
+- Página de perfil do usuário 
+- Navegação entre páginas com React Router
 
-Currently, two official plugins are available:
+## Integrantes e Responsabilidades
+• Daniel : Home, Login, Cadatro de produtos. perfil
+• Raynara : Detalhe do Item
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 🚀 Tecnologias Utilizadas
+- **React** (framework principal)
+- **React Router Dom** (para navegação entre páginas)
+- **JSON Server** com `database.json` (para simular banco de dados local)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 Como Rodar o Projeto 
+npm run dev

@@ -1,0 +1,47 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./CardDono.css";
+
+export default function CardDono({ user, rota }) {
+  const navigate = useNavigate();
+  const [texto, setTexto] = useState(""); 
+
+  return (
+    <div className="container">
+      <div className="coluna">
+      {/* Card do Dono */}
+      <div className="cardDono">
+        <h2 style={{ fontWeight: "bold" }}>Informações do Dono</h2>
+        <h3 className="user">Nome: {user}</h3>
+        <button onClick={() => navigate(rota)} className="button">
+          Ver Perfil Completo
+        </button>
+      </div>
+
+      {/* Card de Enviar Mensagem */}
+        <div className="cardMensagem">
+        <h2 style={{ fontWeight: "bold" }}>Entrar em Contato</h2>
+        <textarea
+          id="mensagem"
+          value={texto}
+          onChange={(e) => setTexto(e.target.value)}
+          placeholder="Escreva uma mensagem para o dono do item..."
+          className="box-message"
+        ></textarea>
+        <button className="button-message">Enviar Mensagem</button>
+        <button className="button-troca">Propor Troca</button>
+      </div>
+      </div>
+            {/* Card de Dicas de Segurança */}
+      <div className="cardSeguranca">
+        <h2 style={{ fontWeight: "bold" }}>Dicas de Segurança</h2>
+        <ul className = "list">
+          <li>Sempre se encontre em locais públicos</li>
+          <li>Verifique o item pessoalmente antes da troca</li>
+          <li>Confie na sua intuição</li>
+          <li>Use o sistema de avaliações</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
