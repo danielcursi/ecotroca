@@ -1,39 +1,31 @@
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between; /* espaço entre esquerda e direita */
-  align-items: flex-start;
+  flex-direction: column;
   gap: 20px;
-  padding: 20px;
-  flex-wrap: wrap;
 }
 .coluna {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 400px;
   flex: 1;
 }
 
 .cardDono,
-.cardMensagem {
+.cardMensagem,
+.cardSeguranca {
   flex: 1 1 100%;
   gap: 16px;
-  max-width: 400px;
   background-color: #f9fafb;
   box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.137);
   border-radius: 10px;
   padding: 20px;
   transition: all 0.3s ease;
   margin-bottom: 16px;
-  width: 900px;
-  height: 200px;
+  max-width: 23rem;
 }
 .cardDono {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 10px;
 }
 
 .cardDono h2 {
@@ -45,18 +37,6 @@
 .cardDono .user {
   margin-bottom: 8px;
   align-items: center;
-}
-
-.cardSeguranca {
-  flex: 1;
-  max-width: 400px;
-  background-color: #f9fafb;
-  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.137);
-  border-radius: 10px;
-  overflow: hidden;
-  width: 700px;
-  height: 200px;
-  transition: all 0.3s ease;
 }
 
 .button {
