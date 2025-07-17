@@ -24,7 +24,7 @@ export default function MyProfiler() {
                 title={item.title}
                 description={item.description}
                 location={item.location}
-                rota={`item/${item.id}`}
+                rota={`/item/${item.id}`}
               />
             ))}
           </section>
