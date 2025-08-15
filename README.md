@@ -1,7 +1,7 @@
 # PROJETO: ♻️ ECOTROCA
 O EcoTroca é uma plataforma que permite cadastrar, visualizar e propor de forma prática e sustentável. A ideia é promover o reuso consciente de itens por meio de um sistema simples de cadastro, visualização e interação entre usuários.
 
-![banner](/src/img/ecoTroca.png)
+![banner](./eco_front/src/img/ecoTroca.png)
 
 ## 🌐 Funcionalidades
 - 🔐 Login de usuários
