@@ -77,7 +77,13 @@ exports.loginUsuario = async (email, senha) => {
         nome: existeUsuario.nome
     },JWT_SECRET_KEY, {expiresIn: '24h'});
 
-    return {existeUsuario, token}
+    return {
+        usuario: {
+            id_usuario: existeUsuario.id_usuario,
+            nome: existeUsuario.nome,
+            email: existeUsuario.email
+        }, token
+    }
 }
 
 exports.updateUsuario = async(id_usuario, nome, email, senha, telefone, cidade, bairro) => {
