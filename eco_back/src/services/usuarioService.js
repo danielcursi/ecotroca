@@ -1,11 +1,11 @@
 require('dotenv').config();
-const prisma = require('../../prisma');
+const prisma = require('../../prisma/client')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET_KEY = process.env.SECRET_KEY;
 
 exports.getAllUsuarios = async() => {
-    return prisma.Usuario.findMany({
+    return prisma.usuario.findMany({
         orderBy:{
             nome: 'asc'
         }
@@ -13,14 +13,14 @@ exports.getAllUsuarios = async() => {
 }
 
 exports.getUsuarioById = async(id_usuario) => {
-    return prisma.Usuario.findUnique({
+    return prisma.usuario.findUnique({
         where:{
             id_usuario: id_usuario
         }
     })
 }
 exports.getUsuarioByEmail = async(email) => {
-    return prisma.Usuario.findUnique({
+    return prisma.usuario.findUnique({
         where: {
             email: email
         }
@@ -29,7 +29,7 @@ exports.getUsuarioByEmail = async(email) => {
 
 exports.addUsuario = async(nome, email, senha, telefone, cidade, bairro) => {
     // const existeUsuario = await this.buscarUsuarioPorEmail(email);
-    const existeUsuario = await prisma.Usuario.findUnique({
+    const existeUsuario = await prisma.usuario.findUnique({
         where: {
             email: email
         }
@@ -40,7 +40,7 @@ exports.addUsuario = async(nome, email, senha, telefone, cidade, bairro) => {
     }
 
     const senhaCriptografada = await bcrypt.hash(senha, 10);
-    return prisma.Usuario.create({
+    return prisma.usuario.create({
         data: {
             nome: nome,
             email: email,
@@ -56,7 +56,7 @@ exports.loginUsuario = async (email, senha) => {
     if(!email || !senha) {
         throw new Error("Email e Senha  são obrigatórios");
     }
-    const existeUsuario = await prisma.Usuario.findUnique({
+    const existeUsuario = await prisma.usuario.findUnique({
         where: {
             email
         }
@@ -88,7 +88,7 @@ exports.loginUsuario = async (email, senha) => {
 
 exports.updateUsuario = async(id_usuario, nome, email, senha, telefone, cidade, bairro) => {
     // const existeUsuario = await this.buscarUsuarioPorId(id_usuario);
-    const existeUsuario = await prisma.Usuario.findUnique({
+    const existeUsuario = await prisma.usuario.findUnique({
         where: {
             id_usuario: id_usuario
         }
@@ -99,7 +99,7 @@ exports.updateUsuario = async(id_usuario, nome, email, senha, telefone, cidade, 
     }
     const senhaCriptografada = await bcrypt.hash(senha, 10)
 
-    return prisma.Usuario.update({
+    return prisma.usuario.update({
         where: {
             id_usuario: id_usuario
         },
@@ -116,7 +116,7 @@ exports.updateUsuario = async(id_usuario, nome, email, senha, telefone, cidade, 
 
 exports.deleteUsuario = async(id_usuario) => {
     // const existeUsuario = this.buscarUsuarioPorId(id_usuario);
-    const existeUsuario = await prisma.Usuario.findUnique({
+    const existeUsuario = await prisma.usuario.findUnique({
         where: {
             id_usuario: id_usuario
         }
@@ -126,7 +126,7 @@ exports.deleteUsuario = async(id_usuario) => {
         throw new Error("Usuário não encontrado");
     }
 
-    return prisma.Usuario.delete({
+    return prisma.usuario.delete({
         where: {
             id_usuario: id_usuario
         }
