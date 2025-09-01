@@ -28,7 +28,7 @@ enum StatusProposta {
 }
 
 model Usuario {
-  id_usuario    Int       @id @default(autoincrement())const express = require('express');
+  id_usuario    Int       @id @default(autoincrement())
   nome          String
   email         String    @unique
   senha_hash    String
