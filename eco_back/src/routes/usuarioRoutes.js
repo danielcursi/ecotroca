@@ -8,5 +8,4 @@ router.post("/", addUsuario)
 router.post("/login", loginUsuario)
 router.put("/:id", updateUsuario)
 router.delete("/:id", deleteUsuario)
-
-exports.module = router;
+module.exports = router;

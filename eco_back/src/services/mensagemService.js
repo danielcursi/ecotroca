@@ -1,33 +1,33 @@
-import prisma from "../prismaClient.js";
+const prisma = require('../prisma');
+exports.getAllMensagens = async () => {
+  return prisma.mensagem.findMany({
+    include: { usuario_remetente: true, proposta_troca: true }
+  });
+};
 
-class MensagemService {
-  async criarMensagem(data) {
-    return prisma.mensagem.create({ data });
-  }
+exports.getMensagemById = async (id_mensagem) => {
+  return prisma.mensagem.findUnique({
+    where: { id_mensagem },
+    include: { usuario_remetente: true, proposta_troca: true }
+  });
+};
 
-  async listarMensagens() {
-    return prisma.mensagem.findMany({
-      include: { proposta_troca: true, usuario_remetente: true },
-    });
-  }
+exports.addMensagem = async (data) => {
+  return prisma.mensagem.create({ data });
+};
 
-  async buscarPorId(id) {
-    return prisma.mensagem.findUnique({
-      where: { id_mensagem: id },
-      include: { proposta_troca: true, usuario_remetente: true },
-    });
-  }
+exports.updateMensagem = async (id_mensagem, data) => {
+  return prisma.mensagem.update({ where: { id_mensagem }, data });
+};
 
-  async atualizarMensagem(id, data) {
-    return prisma.mensagem.update({
-      where: { id_mensagem: id },
-      data,
-    });
-  }
+exports.deleteMensagem = async (id_mensagem) => {
+  return prisma.mensagem.delete({ where: { id_mensagem } });
+};
 
-  async deletarMensagem(id) {
-    return prisma.mensagem.delete({ where: { id_mensagem: id } });
-  }
-}
-
-export default new MensagemService();
+// ---- Ação específica ----
+exports.marcarComoLida = async (id_mensagem) => {
+  return prisma.mensagem.update({
+    where: { id_mensagem },
+    data: { lida: true }
+  });
+};

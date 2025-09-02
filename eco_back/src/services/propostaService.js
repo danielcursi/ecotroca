@@ -1,44 +1,69 @@
-import prisma from "../prismaClient.js";
+const prisma = require('../prisma');
 
-class PropostaService {
-  async criarProposta(data) {
-    return prisma.propostaTroca.create({ data });
-  }
+exports.getAllPropostas = async () => {
+  return prisma.propostaTroca.findMany({
+    include: { 
+      item_oferecido: true, 
+      item_desejado: true, 
+      usuario_proponente: true 
+    }
+  });
+};
 
-  async listarPropostas() {
-    return prisma.propostaTroca.findMany({
-      include: {
-        item_oferecido: true,
-        item_desejado: true,
-        usuario_proponente: true,
-        mensagens: true,
-      },
-    });
-  }
+exports.getPropostaById = async (id_proposta) => {
+  return prisma.propostaTroca.findUnique({
+    where: { id_proposta },
+    include: { 
+      item_oferecido: true, 
+      item_desejado: true, 
+      usuario_proponente: true,
+      mensagens: true
+    }
+  });
+};
 
-  async buscarPorId(id) {
-    return prisma.propostaTroca.findUnique({
-      where: { id_proposta: id },
-      include: {
-        item_oferecido: true,
-        item_desejado: true,
-        usuario_proponente: true,
-        mensagens: true,
-      },
-    });
-  }
+exports.addProposta = async (data) => {
+  return prisma.propostaTroca.create({ data });
+};
 
-  async atualizarProposta(id, data) {
-    return prisma.propostaTroca.update({
-      where: { id_proposta: id },
-      data,
-    });
-  }
+exports.updateProposta = async (id_proposta, data) => {
+  return prisma.propostaTroca.update({
+    where: { id_proposta },
+    data
+  });
+};
 
-  async deletarProposta(id) {
-    return prisma.propostaTroca.delete({ where: { id_proposta: id } });
-  }
-}
+exports.deleteProposta = async (id_proposta) => {
+  return prisma.propostaTroca.delete({ where: { id_proposta } });
+};
 
-export default new PropostaService();
+// ---- Ações específicas ----
+exports.aceitarProposta = async (id_proposta) => {
+  return prisma.propostaTroca.update({
+    where: { id_proposta },
+    data: {
+      status_proposta: 'ACEITA',
+      data_atualizacao_status: new Date()
+    }
+  });
+};
 
+exports.recusarProposta = async (id_proposta) => {
+  return prisma.propostaTroca.update({
+    where: { id_proposta },
+    data: {
+      status_proposta: 'RECUSADA',
+      data_atualizacao_status: new Date()
+    }
+  });
+};
+
+exports.cancelarProposta = async (id_proposta) => {
+  return prisma.propostaTroca.update({
+    where: { id_proposta },
+    data: {
+      status_proposta: 'CANCELADA',
+      data_atualizacao_status: new Date()
+    }
+  });
+};
