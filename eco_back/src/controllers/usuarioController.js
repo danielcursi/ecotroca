@@ -18,7 +18,7 @@ exports.getUsuarioByIdHandler = async(req, res) => {
         }
         res.status(200).json(usuario)
     }catch(err){
-        res.status(500).json({ error: 'Erro ao buscar usuário' })
+        res.status(500).json({ error: err.message })
     }
 }
 
@@ -46,15 +46,19 @@ exports.loginUsuarioHandler = async (req, res) => {
             token
         })
     }catch(err){
-        res.status(401).json({ error: err.message })
+        res.status(500).json({ error: err.message })
     }
 }
 
 exports.updateUsuarioHandler = async(req, res) => {
-    const {id_usuario, nome, email, senha, telefone, cidade, bairro} = req.body;
+    const id_usuario = parseInt(req.params.id_usuario);
+    const {nome, email, senha, telefone, cidade, bairro} = req.body;
     try{
         const usuarioAtulizado = await updateUsuario(id_usuario, nome, email, senha, telefone, cidade, bairro);
-        res.status(200).json({message: "Usuário atualizado com sucesso!"});
+        res.status(200).json(
+            {user: usuarioAtulizado,
+            message: "Usuário atualizado com sucesso!"
+        });
     }catch(err){
         res.status(500).json({ error: err.message })
     }
@@ -65,10 +69,10 @@ exports.deleteUsuarioHandler = async(req, res) => {
 
     try{
         await deleteUsuario(id_usuario);
-        res.status(204).send();
+        res.status(204).json({ message: 'Usuário deletado com sucesso!' });
     }catch(err){
         if(err.message === "Usuário não encontrado"){
-            return res.status(404).json({ err: "Usuário não existe" })
+            return res.status(404).json({ error: "Usuário não existe" })
         }
         res.status(500).json({ error: 'Erro ao deletar usuário' })
     }

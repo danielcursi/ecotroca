@@ -15,7 +15,7 @@ exports.getAllUsuarios = async() => {
 exports.getUsuarioById = async(id_usuario) => {
     return prisma.usuario.findUnique({
         where:{
-            id_usuario: id_usuario
+            id_usuario: Number(id_usuario)
         }
     })
 }
@@ -97,7 +97,10 @@ exports.updateUsuario = async(id_usuario, nome, email, senha, telefone, cidade, 
     if (!existeUsuario){
         throw new Error('Usuário não existe')
     }
-    const senhaCriptografada = await bcrypt.hash(senha, 10)
+    let senhaCriptografada = existeUsuario.senha;
+    if (senha) {
+        senhaCriptografada = await bcrypt.hash(senha, 10)
+    }
 
     return prisma.usuario.update({
         where: {
