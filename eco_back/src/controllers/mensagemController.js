@@ -1,41 +1,60 @@
-import mensagemService from "../services/mensagemService.js";
+const {
+  getAllMensagens,
+  getMensagemById,
+  addMensagem,
+  updateMensagem,
+  deleteMensagem,
+  marcarComoLida
+} = require('../services/mensagemService');
 
-class MensagemController {
-  async criar(req, res) {
-    try {
-      const mensagem = await mensagemService.criarMensagem(req.body);
-      res.status(201).json(mensagem);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
+exports.getAllMensagensHandler = async (req, res) => {
+  try {
+    res.status(200).json(await getAllMensagens());
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+};
 
-  async listar(req, res) {
-    res.json(await mensagemService.listarMensagens());
+exports.getMensagemByIdHandler = async (req, res) => {
+  try {
+    const msg = await getMensagemById(parseInt(req.params.id_mensagem));
+    if (!msg) return res.status(404).json({ error: 'Mensagem não encontrada' });
+    res.status(200).json(msg);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+};
 
-  async buscar(req, res) {
-    const mensagem = await mensagemService.buscarPorId(Number(req.params.id));
-    if (!mensagem) return res.status(404).json({ error: "Mensagem não encontrada" });
-    res.json(mensagem);
+exports.addMensagemHandler = async (req, res) => {
+  try {
+    res.status(201).json(await addMensagem(req.body));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+};
 
-  async atualizar(req, res) {
-    try {
-      res.json(await mensagemService.atualizarMensagem(Number(req.params.id), req.body));
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
+exports.updateMensagemHandler = async (req, res) => {
+  try {
+    res.status(200).json(await updateMensagem(parseInt(req.params.id_mensagem), req.body));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
+};
 
-  async deletar(req, res) {
-    try {
-      await mensagemService.deletarMensagem(Number(req.params.id));
-      res.json({ message: "Mensagem deletada com sucesso" });
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
+exports.deleteMensagemHandler = async (req, res) => {
+  try {
+    await deleteMensagem(parseInt(req.params.id_mensagem));
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-}
+};
 
-export default new MensagemController();
+// ---- Ação específica ----
+exports.marcarComoLidaHandler = async (req, res) => {
+  try {
+    res.status(200).json(await marcarComoLida(parseInt(req.params.id_mensagem)));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

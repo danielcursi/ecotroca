@@ -1,12 +1,21 @@
-import { Router } from "express";
-import mensagemController from "../controllers/mensagemController.js";
+const express = require('express');
+const router = express.Router();
+const {
+  getAllMensagensHandler,
+  getMensagemByIdHandler,
+  addMensagemHandler,
+  updateMensagemHandler,
+  deleteMensagemHandler,
+  marcarComoLidaHandler
+} = require('../controllers/mensagemController');
 
-const router = Router();
+router.get("/", getAllMensagensHandler);
+router.get("/:id_mensagem", getMensagemByIdHandler);
+router.post("/", addMensagemHandler);
+router.put("/:id_mensagem", updateMensagemHandler);
+router.delete("/:id_mensagem", deleteMensagemHandler);
 
-router.post("/", mensagemController.criar);
-router.get("/", mensagemController.listar);
-router.get("/:id", mensagemController.buscar);
-router.put("/:id", mensagemController.atualizar);
-router.delete("/:id", mensagemController.deletar);
+// ---- Ação específica ----
+router.put("/:id_mensagem/lida", marcarComoLidaHandler);
 
-export default router;
+module.exports = router;
