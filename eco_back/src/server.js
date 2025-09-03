@@ -28,6 +28,11 @@ app.use("/api/categorias", categoriaRoutes);
 app.use("/api/propostas", propostaRoutes);
 app.use("/api/mensagens", mensagemRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Olá, Ecotroca está no ar! 🌱');
+});
+
+
 // Start do servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

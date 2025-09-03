@@ -24,5 +24,24 @@ dist-ssr
 *.sw?
 *.env
 /src/generated/prisma
+./prisma/migrations
 
-/migration
+# Arquivos e pastas gerados pelo Prisma
+/src/generated/prisma/
+/prisma/migrations/*/migration.sql
+
+/prisma/migrations/20250903193132_init/
+
+
+# Binários e engines do Prisma
+*.dll.node
+*.so.node
+*.dylib.node
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ambiente
+.env
