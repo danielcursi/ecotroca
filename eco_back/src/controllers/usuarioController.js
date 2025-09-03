@@ -10,7 +10,9 @@ exports.getAllUsuariosHandler = async (req, res) => {
 }
 
 exports.getUsuarioByIdHandler = async(req, res) => {
-    const  id_usuario  = parseInt(req.params.id_usuario);
+    const id_usuario = parseInt(req.params.id_usuario);
+
+    if (isNaN(id_usuario)) return res.status(400).json({ error: 'ID INVALIDO' })
     try{
         const usuario = await getUsuarioById(id_usuario);
         if (!usuario) {
@@ -26,7 +28,7 @@ exports.addUsuarioHandler = async(req, res) => {
     const { nome, email, senha, telefone, cidade, bairro} = req.body;
     
     try{
-        const usuarioNovo = await addUsuario(nome, email, senha, telefone, cidade, bairro);
+        const usuarioNovo = await addUsuario({nome, email, senha, telefone, cidade, bairro});
         res.status(201).json(usuarioNovo);
     }catch(err){
         res.status(500).json({ error: err.message })

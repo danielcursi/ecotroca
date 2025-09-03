@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsuarios, getUsuarioById, addUsuario, updateUsuario, deleteUsuario, loginUsuario } = require('../services/usuarioService');
+const { addUsuarioHandler, getAllUsuariosHandler, getUsuarioByIdHandler, loginUsuarioHandler, updateUsuarioHandler, deleteUsuarioHandler } = require('../controllers/usuarioController');
 
-router.get("/", getAllUsuarios)
-router.get("/:id", getUsuarioById)
-router.post("/", addUsuario)
-router.post("/login", loginUsuario)
-router.put("/:id", updateUsuario)
-router.delete("/:id", deleteUsuario)
+router.get("/", getAllUsuariosHandler)
+router.get("/:id_usuario", getUsuarioByIdHandler)
+router.post("/", addUsuarioHandler)
+router.post("/login", loginUsuarioHandler)
+router.put("/:id_usuario", updateUsuarioHandler)
+router.delete("/:id_usuario", deleteUsuarioHandler)
+
 module.exports = router;

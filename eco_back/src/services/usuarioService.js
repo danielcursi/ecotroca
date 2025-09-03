@@ -19,6 +19,7 @@ exports.getUsuarioById = async(id_usuario) => {
         }
     })
 }
+
 exports.getUsuarioByEmail = async(email) => {
     return prisma.usuario.findUnique({
         where: {
@@ -27,30 +28,29 @@ exports.getUsuarioByEmail = async(email) => {
     })
 }
 
-exports.addUsuario = async(nome, email, senha, telefone, cidade, bairro) => {
-    // const existeUsuario = await this.buscarUsuarioPorEmail(email);
+exports.addUsuario = async ({ nome, email, senha, telefone, cidade, bairro }) => {
     const existeUsuario = await prisma.usuario.findUnique({
-        where: {
-            email: email
-        }
-    })
-    
-    if (existeUsuario){
+        where: { email }
+    });
+
+    if (existeUsuario) {
         throw new Error("Usuário já cadastrado com esse email");
     }
 
     const senhaCriptografada = await bcrypt.hash(senha, 10);
+
     return prisma.usuario.create({
         data: {
-            nome: nome,
-            email: email,
-            senha: senhaCriptografada,
-            telefone: telefone,
-            cidade: cidade,
-            bairro: bairro
+            nome,
+            email,
+            senha_hash: senhaCriptografada,
+            telefone,
+            cidade,
+            bairro
         }
-    })
-}
+    });
+};
+
 
 exports.loginUsuario = async (email, senha) => {
     if(!email || !senha) {

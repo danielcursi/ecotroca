@@ -186,7 +186,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/carlos/Documentos/ecotroca/eco_back/src/generated/prisma",
+      "value": "C:\\Users\\pablo\\Desktop\\ecoTroca\\ecotroca\\eco_back\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -195,12 +195,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/carlos/Documentos/ecotroca/eco_back/prisma/schema.prisma",
+    "sourceFilePath": "C:\\Users\\pablo\\Desktop\\ecoTroca\\ecotroca\\eco_back\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -213,17 +217,16 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "fromEnvVar": null,
+        "value": "postgresql://postgres:postgre@localhost:5432/ecotroca?schema=public"
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum StatusItem {\n  DISPONIVEL\n  RESERVADO\n  INDISPONIVEL\n}\n\nenum StatusProposta {\n  PENDENTE\n  ACEITA\n  RECUSADA\n  CANCELADA\n}\n\nmodel Usuario {\n  id_usuario    Int      @id @default(autoincrement())\n  nome          String\n  email         String   @unique\n  senha_hash    String\n  telefone      String\n  cidade        String\n  bairro        String\n  data_cadastro DateTime @default(now())\n\n  // Relacionamentos\n  itens     Item[]          @relation(\"UsuarioItens\")\n  propostas PropostaTroca[] @relation(\"UsuarioPropostas\")\n  mensagens Mensagem[]      @relation(\"UsuarioMensagens\")\n}\n\nmodel Item {\n  id_item                 Int        @id @default(autoincrement())\n  id_usuario_proprietario Int\n  id_categoria            Int\n  titulo                  String\n  descricao               String\n  condicao                String\n  foto_uris               String\n  data_publicacao         DateTime   @default(now())\n  status_item             StatusItem\n\n  // Relacionamentos\n  usuario             Usuario         @relation(\"UsuarioItens\", fields: [id_usuario_proprietario], references: [id_usuario])\n  categoria           Categoria       @relation(fields: [id_categoria], references: [id_categoria])\n  propostas_oferecido PropostaTroca[] @relation(\"ItemOferecido\")\n  propostas_desejado  PropostaTroca[] @relation(\"ItemDesejado\")\n}\n\nmodel Categoria {\n  id_categoria   Int     @id @default(autoincrement())\n  nome_categoria String\n  descricao      String?\n\n  // Relacionamentos\n  itens Item[]\n}\n\nmodel PropostaTroca {\n  id_proposta             Int            @id @default(autoincrement())\n  id_item_oferecido       Int\n  id_item_desejado        Int\n  id_usuario_proponente   Int\n  status_proposta         StatusProposta\n  data_proposta           DateTime       @default(now())\n  data_atualizacao_status DateTime?\n\n  // Relacionamentos\n  item_oferecido     Item       @relation(\"ItemOferecido\", fields: [id_item_oferecido], references: [id_item])\n  item_desejado      Item       @relation(\"ItemDesejado\", fields: [id_item_desejado], references: [id_item])\n  usuario_proponente Usuario    @relation(\"UsuarioPropostas\", fields: [id_usuario_proponente], references: [id_usuario])\n  mensagens          Mensagem[]\n}\n\nmodel Mensagem {\n  id_mensagem          Int      @id @default(autoincrement())\n  id_proposta_troca    Int\n  id_usuario_remetente Int\n  conteudo_mensagem    String\n  data_envio           DateTime @default(now())\n  lida                 Boolean  @default(false)\n\n  // Relacionamentos\n  proposta_troca    PropostaTroca @relation(fields: [id_proposta_troca], references: [id_proposta])\n  usuario_remetente Usuario       @relation(\"UsuarioMensagens\", fields: [id_usuario_remetente], references: [id_usuario])\n}\n",
-  "inlineSchemaHash": "bdec898ffede3d170853f576682e78f130a2e497931a25d87d1209e97a1f030f",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"windows\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = \"postgresql://postgres:postgre@localhost:5432/ecotroca?schema=public\"\n}\n\nenum StatusItem {\n  DISPONIVEL\n  RESERVADO\n  INDISPONIVEL\n}\n\nenum StatusProposta {\n  PENDENTE\n  ACEITA\n  RECUSADA\n  CANCELADA\n}\n\nmodel Usuario {\n  id_usuario    Int      @id @default(autoincrement())\n  nome          String\n  email         String   @unique\n  senha_hash    String\n  telefone      String\n  cidade        String\n  bairro        String\n  data_cadastro DateTime @default(now())\n\n  // Relacionamentos\n  itens     Item[]          @relation(\"UsuarioItens\")\n  propostas PropostaTroca[] @relation(\"UsuarioPropostas\")\n  mensagens Mensagem[]      @relation(\"UsuarioMensagens\")\n}\n\nmodel Item {\n  id_item                 Int        @id @default(autoincrement())\n  id_usuario_proprietario Int\n  id_categoria            Int\n  titulo                  String\n  descricao               String\n  condicao                String\n  foto_uris               String\n  data_publicacao         DateTime   @default(now())\n  status_item             StatusItem\n\n  // Relacionamentos\n  usuario             Usuario         @relation(\"UsuarioItens\", fields: [id_usuario_proprietario], references: [id_usuario])\n  categoria           Categoria       @relation(fields: [id_categoria], references: [id_categoria])\n  propostas_oferecido PropostaTroca[] @relation(\"ItemOferecido\")\n  propostas_desejado  PropostaTroca[] @relation(\"ItemDesejado\")\n}\n\nmodel Categoria {\n  id_categoria   Int     @id @default(autoincrement())\n  nome_categoria String\n  descricao      String?\n\n  // Relacionamentos\n  itens Item[]\n}\n\nmodel PropostaTroca {\n  id_proposta             Int            @id @default(autoincrement())\n  id_item_oferecido       Int\n  id_item_desejado        Int\n  id_usuario_proponente   Int\n  status_proposta         StatusProposta\n  data_proposta           DateTime       @default(now())\n  data_atualizacao_status DateTime?\n\n  // Relacionamentos\n  item_oferecido     Item       @relation(\"ItemOferecido\", fields: [id_item_oferecido], references: [id_item])\n  item_desejado      Item       @relation(\"ItemDesejado\", fields: [id_item_desejado], references: [id_item])\n  usuario_proponente Usuario    @relation(\"UsuarioPropostas\", fields: [id_usuario_proponente], references: [id_usuario])\n  mensagens          Mensagem[]\n}\n\nmodel Mensagem {\n  id_mensagem          Int      @id @default(autoincrement())\n  id_proposta_troca    Int\n  id_usuario_remetente Int\n  conteudo_mensagem    String\n  data_envio           DateTime @default(now())\n  lida                 Boolean  @default(false)\n\n  // Relacionamentos\n  proposta_troca    PropostaTroca @relation(fields: [id_proposta_troca], references: [id_proposta])\n  usuario_remetente Usuario       @relation(\"UsuarioMensagens\", fields: [id_usuario_remetente], references: [id_usuario])\n}\n",
+  "inlineSchemaHash": "6a458e1f871980042ed91d596a6c7376e85e4dcc5ab772b5d85b2ff60afb9e2e",
   "copyEngine": true
 }
 
@@ -262,8 +265,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
-path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
+path.join(__dirname, "query_engine-windows.dll.node");
+path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
