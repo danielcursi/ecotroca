@@ -56,7 +56,7 @@ exports.updateUsuarioHandler = async(req, res) => {
     const id_usuario = parseInt(req.params.id_usuario);
     const {nome, email, senha, telefone, cidade, bairro} = req.body;
     try{
-        const usuarioAtulizado = await updateUsuario(id_usuario, nome, email, senha, telefone, cidade, bairro);
+        const usuarioAtulizado = await updateUsuario(id_usuario, {nome, email, senha, telefone, cidade, bairro});
         res.status(200).json(
             {user: usuarioAtulizado,
             message: "Usuário atualizado com sucesso!"
