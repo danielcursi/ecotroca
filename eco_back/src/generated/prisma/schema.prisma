@@ -7,12 +7,12 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../src/generated/prisma"
-  binaryTargets = ["native", "windows"]
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgre@localhost:5432/ecotroca?schema=public"
+  url      = env("DATABASE_URL")
 }
 
 enum StatusItem {
