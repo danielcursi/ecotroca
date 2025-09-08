@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 import { Link } from "react-router-dom";
 import "./styles.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/Logo-colorida.png";
 import Button from "../button/Button";
 
 export default function Header() {
