@@ -2,7 +2,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash, FaArrowLeft } from "react-icons/fa";
-import logo from "../assets/logo-transparente.png";
+import logo from "../assets/Logo-colorida.png";
 import Button from "../components/button/Button";
 import data from "../components/database.json";
 import { useState } from "react";
@@ -51,7 +51,7 @@ export default function Login() {
       </h1>
       <form onSubmit={handleSubmit} className="form-login">
         <section className="form-title">
-          <h2>Bem-vindo de volta</h2>
+          <h2>Bem-vindo</h2>
           <p>Faça login para continuar trocando de forma sustentável</p>
         </section>
         <label>E-mail</label>
