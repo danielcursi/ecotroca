@@ -1,6 +1,7 @@
 import Button from "../components/button/Button";
 import svg from "../assets/Login-bro.svg";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Adicione esta linha
 
 export default function NewUser() {
   const [name, setName] = useState("");
@@ -8,6 +9,7 @@ export default function NewUser() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Adicione esta linha
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,6 +38,7 @@ export default function NewUser() {
         <img src={svg} alt="imagem" />
       </div>
       <div className="form-register">
+
         <form onSubmit={handleSubmit} className="form">
           <h1>Crie seu cadastro</h1>
           <label>Nome:</label>
@@ -83,6 +86,14 @@ export default function NewUser() {
             required
           />
           <button className="button-register">Cadastre-se</button>
+          <button
+          type="button"
+          className="button-register"
+          onClick={() => navigate(-1)}
+          
+        >
+          Voltar
+        </button>
         </form>
       </div>
     </section>
