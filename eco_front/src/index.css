@@ -1,61 +1,136 @@
+/* === Importação da Fonte === */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
+/* === Reset e Fonte Padrão === */
 * {
-  font-family: "Montserrat", sans-serif;
-  margin: 0;
-  padding: 0;
+  font-family: "Montserrat", sans-serif; /* Fonte moderna para todo o site */
+  margin: 0;                             /* Remove margens padrões */
+  padding: 0;                            /* Remove espaçamentos padrões */
 }
 
+/* === Banner Principal (Home) Modernizado === */
 .banner-home {
-  background: linear-gradient(
-    90deg,
-    rgba(33, 196, 94, 1) 0%,
-    rgba(5, 151, 105, 1) 100%
-  );
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 15rem;
-  padding: 3rem;
+  background: linear-gradient(                /* Gradiente verde com transparência */
+      90deg,
+      rgba(33, 196, 94, 0.9) 0%,
+      rgba(5, 151, 105, 0.9) 100%
+    ),
+    url("/img/banner.jpg") center/cover no-repeat; /* Imagem de fundo opcional */
+  color: #fff;                                /* Texto branco */
+  display: flex;                              /* Layout flex */
+  flex-direction: column;                     /* Conteúdo em coluna */
+  justify-content: center;                    /* Centraliza verticalmente */
+  align-items: center;                        /* Centraliza horizontalmente */
+  text-align: center;                         /* Centraliza o texto */
+  min-height: 20rem;                          /* Altura mínima */
+  padding: 3rem 1rem;                         /* Espaçamento interno */
+  animation: fadeIn 1s ease-in-out;           /* Animação ao carregar */
 }
 
+/* === Título do banner === */
 .banner-home h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
-  text-align: center;
+  text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra no texto */
 }
 
+/* === Texto do banner === */
 .banner-home p {
   font-size: 1.2rem;
   font-weight: 500;
-  text-align: center;
   line-height: 1.6;
+  max-width: 40rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.25);
 }
 
+/* === Botão Call-to-Action (CTA) === */
+.banner-home button {
+  background-color: #fff;
+  color: #059769;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.banner-home button:hover {
+  background-color: #059769;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* === Animação Fade In === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsividade === */
+@media (max-width: 768px) {
+  .banner-home {
+    min-height: 15rem;
+    padding: 2rem 1rem;
+  }
+  .banner-home h1 {
+    font-size: 2rem;
+  }
+  .banner-home p {
+    font-size: 1rem;
+  }
+  .banner-home button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+.banner-home h1 {
+  font-size: 3rem;                       /* Título grande */
+  margin-bottom: 1rem;                   /* Espaçamento inferior */
+  text-align: center;                    /* Centralizado */
+}
+
+.banner-home p {
+  font-size: 1.2rem;                     /* Texto médio */
+  font-weight: 500;                      /* Destaque no peso */
+  text-align: center;                    /* Centralizado */
+  line-height: 1.6;                      /* Mais legibilidade */
+}
+
+/* === Container da Busca no Banner === */
 .container-search {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-top: 2rem;
+  flex-wrap: wrap;                       /* Permite quebrar linha */
+  justify-content: center;               /* Centraliza horizontalmente */
+  gap: 0.4rem;                           /* Espaçamento entre itens */
+  margin-top: 2rem;                      /* Distância do conteúdo acima */
 }
 
 .container-search a {
   margin: auto;
-  color: #059769;
-  padding: 1rem 1.7rem;
+  color: #059769;                        /* Verde padrão */
+  padding: 1rem 1.7rem;                  /* Botão espaçado */
 }
 
 .container-search a:hover {
-  background-color: #e4e4e4;
+  background-color: #e4e4e4;             /* Fundo claro ao passar o mouse */
 }
 
+/* === Input de Busca === */
 .banner-input {
   display: flex;
   align-items: center;
-  background-color: #fff;
-  border-radius: 8px;
+  background-color: #fff;                /* Fundo branco */
+  border-radius: 8px;                    /* Bordas arredondadas */
   width: 22rem;
   padding: 0 0.7rem;
 }
@@ -63,24 +138,25 @@
 .banner-input input {
   padding: 1rem;
   border: none;
-  outline: none;
+  outline: none;                         /* Remove borda ao focar */
 }
 
 .search-icon {
-  color: rgb(83, 82, 82);
+  color: rgb(83, 82, 82);                /* Ícone cinza */
 }
 
+/* === Seção de Informações === */
 .section-infos {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;                       /* Itens em várias linhas */
   min-height: 15rem;
 }
 
 .section-infos article {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;                /* Ícone + texto em coluna */
   align-items: center;
   width: 15rem;
   margin: 2rem;
@@ -88,8 +164,8 @@
 
 .section-infos .i {
   font-size: 2rem;
-  background-color: #22c3603b;
-  border-radius: 50%;
+  background-color: #22c3603b;           /* Verde claro translúcido */
+  border-radius: 50%;                    /* Formato circular */
   color: #059769;
   padding: 0.7rem;
 }
@@ -99,8 +175,9 @@
   font-weight: 500;
 }
 
+/* === Seção de Destaque === */
 .section-emphasis {
-  background-color: #f9fafb;
+  background-color: #f9fafb;             /* Fundo cinza claro */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,12 +192,13 @@
 }
 
 .section-emphasis p {
-  color: #828993;
+  color: #828993;                        /* Cinza médio */
   font-size: 1.2rem;
   font-weight: 500;
   text-align: center;
 }
 
+/* === Cards === */
 .section-cards {
   display: flex;
   flex-wrap: wrap;
@@ -129,9 +207,10 @@
   gap: 2rem;
 }
 
+/* === Rodapé === */
 .footer {
-  background-color: #111827;
-  color: #e4e4e4;
+  background-color: #111827;             /* Fundo preto-azulado */
+  color: #e4e4e4;                        /* Texto cinza claro */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,9 +237,10 @@
 .footer a:hover {
   background-color: #059769;
   color: #e4e4e4;
-  transform: scale(1.05);
+  transform: scale(1.05);                /* Leve efeito de zoom */
 }
 
+/* === Seção de Cadastro === */
 .register {
   background-color: #f1f4fa;
   display: flex;
@@ -182,6 +262,7 @@
   font-weight: 600;
   padding: 0.8rem 1.3rem;
 }
+
 .button-arrow-item {
   background-color: transparent;
   border: none;
@@ -193,6 +274,7 @@
   font-weight: 600;
   padding: 0.8rem 1.3rem;
 }
+
 .register h1 {
   font-size: 1.6rem;
   margin-bottom: 0.6rem;
@@ -205,6 +287,7 @@
   margin-bottom: 1.5rem;
 }
 
+/* === Estrutura do Formulário de Registro === */
 .section-register {
   display: flex;
   flex-direction: row;
@@ -255,6 +338,7 @@
   padding: 0.3rem 0;
 }
 
+/* === Upload de Foto === */
 .photo {
   background-color: #fff;
   border-radius: 10px;
@@ -271,6 +355,7 @@
   font-size: 0.88rem;
 }
 
+/* === Botões === */
 .button-form {
   background-color: #059769;
   color: #fff;
@@ -280,7 +365,32 @@
   cursor: pointer;
   font-weight: 600;
   padding: 0.6rem;
+  width: 100%; /* Botão principal ocupa toda a largura */
+  margin-bottom: 0.5rem;
 }
+
+.button-form.button-back {
+  width: fit-content;      /* Só ocupa o necessário */
+  min-width: 120px;
+  margin-left: 0;          /* Alinha à esquerda */
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;  /* Mais confortável */
+  background-color: #fff;  /* Fundo branco para diferenciar */
+  color: #059769;          /* Texto verde */
+  border: 2px solid #059769;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+.button-form.button-back:hover {
+  background-color: #059769;
+  color: #fff;
+}
+
 
 .buttonProduct {
   display: flex;
@@ -290,6 +400,7 @@
   margin: 2rem 0;
 }
 
+/* === Cards de Produtos === */
 .allCards {
   display: flex;
   flex-direction: row;
@@ -298,6 +409,7 @@
   gap: 1rem;
 }
 
+/* === Tela de Login === */
 .login {
   background-color: #d8fae8;
   display: flex;
@@ -340,6 +452,7 @@
   width: 80%;
 }
 
+/* Inputs Login */
 .login-input {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.274);
@@ -395,6 +508,7 @@
   cursor: pointer;
 }
 
+/* === Tela de Cadastro de Usuário === */
 .register-user {
   background: linear-gradient(
     90deg,
@@ -451,6 +565,7 @@
   background-color: #059769c0;
 }
 
+/* === Perfil === */
 .profile {
   background-color: #f9fafb;
   display: flex;
@@ -485,6 +600,7 @@
   width: 80%;
 }
 
+/* === Detalhe do Item === */
 .detail-item {
   display: flex;
   flex-direction: row;
@@ -493,6 +609,7 @@
   margin: 1.5rem;
 }
 
+/* === Responsividade (até 907px) === */
 @media only screen and (max-width: 907px) {
   .banner-input {
     width: auto;
@@ -519,6 +636,7 @@
   }
 }
 
+/* === Responsividade (até 550px) === */
 @media only screen and (max-width: 550px) {
   .register h1,
   p {
