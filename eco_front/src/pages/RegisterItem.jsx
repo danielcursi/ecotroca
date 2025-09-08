@@ -60,14 +60,7 @@ export default function RegisterItem() {
     <>
       <section className="register">
         <section>
-          <button
-            onClick={voltarPagina}
-            className="button-arrow"
-            style={{ marginBottom: "1rem" }}
-          >
-            <FaArrowLeft />
-            Voltar
-          </button>
+          
           <h1>Adicionar Novo Item</h1>
           <p>
             Compartilhe um item que você não usa mais e encontre algo que
@@ -138,6 +131,14 @@ export default function RegisterItem() {
               <button type="submit" className="button-form">
                 Publicar Item
               </button>
+              <button
+            onClick={voltarPagina}
+            className="button-form"
+            style={{ marginBottom: "1rem" }}
+          >
+            <FaArrowLeft />
+            Voltar
+          </button>
             </form>
             <section className="photo">
               <div>
