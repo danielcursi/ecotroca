@@ -1,4 +1,4 @@
-const { getAllCategorias, getCategoriaById, addCategoria, updateCategoria, deleteCategoria } = require('../services/categoriaService');
+const { getAllCategorias, getCategoriaById, addCategoria, updateCategoria, deleteCategoria } = require('../models/categoriaModel');
 
 exports.getAllCategoriasHandler = async (req, res) => {
   try {

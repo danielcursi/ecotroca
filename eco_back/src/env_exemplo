@@ -1,0 +1,7 @@
+# URL de conexão com o banco de dados (PostgreSQL, MySQL, etc.)
+# Formato: postgresql://usuario:senha@host:porta/nome_do_banco?schema=public
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco?schema=public"
+
+# Chave secreta usada para assinar tokens JWT
+# Gere uma chave segura com: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+JWT_SECRET_KEY="sua_chave_secreta_aqui"

@@ -6,7 +6,7 @@ const {
   updateUsuario,
   deleteUsuario,
   loginUsuario
-} = require("../services/usuarioService");
+} = require("../models/usuarioModel");
 
 exports.getAllUsuariosHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];

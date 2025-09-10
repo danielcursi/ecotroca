@@ -5,7 +5,7 @@ const {
   updateMensagem,
   deleteMensagem,
   marcarComoLida
-} = require('../services/mensagemService');
+} = require('../models/mensagemModel');
 
 exports.getAllMensagensHandler = async (req, res) => {
   try {

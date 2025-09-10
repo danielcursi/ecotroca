@@ -2,7 +2,8 @@ require('dotenv').config();
 const prisma = require('../prisma');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'ZIG5Mi9EBtrJmlm8D84HO83hDSvREpYp';
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+
 console.log(JWT_SECRET_KEY)
 
 exports.getAllUsuarios = async() => {

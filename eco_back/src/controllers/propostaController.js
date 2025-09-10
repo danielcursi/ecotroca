@@ -7,7 +7,7 @@ const {
   aceitarProposta,
   recusarProposta,
   cancelarProposta
-} = require('../services/propostaService');
+} = require('../models/propostaModel');
 
 exports.getAllPropostasHandler = async (req, res) => {
   try {

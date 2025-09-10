@@ -1,4 +1,4 @@
-const { getAllItens, getItemById, addItem, updateItem, deleteItem } = require('../services/itemService');
+const { getAllItens, getItemById, addItem, updateItem, deleteItem } = require('../models/itemModel');
 
 exports.getAllItensHandler = async (req, res) => {
   try {
