@@ -9,13 +9,18 @@ const {
   marcarComoLidaHandler
 } = require('../controllers/mensagemController');
 
+const verificarParticipanteProposta = require('../middlewares/regraMensagem');
+
+// Rotas públicas / leitura
 router.get("/", getAllMensagensHandler);
 router.get("/:id_mensagem", getMensagemByIdHandler);
-router.post("/", addMensagemHandler);
-router.put("/:id_mensagem", updateMensagemHandler);
-router.delete("/:id_mensagem", deleteMensagemHandler);
 
-// ---- Ação específica ----
+// Rotas protegidas - só participantes da proposta podem enviar ou atualizar mensagens
+router.post("/", verificarParticipanteProposta, addMensagemHandler);
+router.put("/:id_mensagem", verificarParticipanteProposta, updateMensagemHandler);
+
+// Rotas que não precisam de middleware (ex: deletar ou marcar como lida)
+router.delete("/:id_mensagem", deleteMensagemHandler);
 router.put("/:id_mensagem/lida", marcarComoLidaHandler);
 
 module.exports = router;
