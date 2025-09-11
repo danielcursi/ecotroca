@@ -8,10 +8,15 @@ const {
   deleteItemHandler
 } = require('../controllers/itemController');
 
+const verificarDonoItem = require('../middlewares/regraDonoItem');
+
+// Rotas públicas
 router.get("/", getAllItensHandler);
 router.get("/:id_item", getItemByIdHandler);
 router.post("/", addItemHandler);
-router.put("/:id_item", updateItemHandler);
-router.delete("/:id_item", deleteItemHandler);
+
+// Rotas que precisam verificar dono do item
+router.put("/:id_item", verificarDonoItem, updateItemHandler);
+router.delete("/:id_item", verificarDonoItem, deleteItemHandler);
 
 module.exports = router;
