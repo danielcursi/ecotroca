@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { addUsuarioHandler, getAllUsuariosHandler, getUsuarioByIdHandler, loginUsuarioHandler, updateUsuarioHandler, deleteUsuarioHandler } = require('../controllers/usuarioController');
+const autenticar = require('../middlewares/authMiddleware');
 
-router.get("/", getAllUsuariosHandler)
-router.get("/:id_usuario", getUsuarioByIdHandler)
-router.post("/", addUsuarioHandler)
-router.post("/login", loginUsuarioHandler)
-router.put("/:id_usuario", updateUsuarioHandler)
-router.delete("/:id_usuario", deleteUsuarioHandler)
+// Rotas públicas
+router.post("/", addUsuarioHandler);        // cadastro
+router.post("/login", loginUsuarioHandler); // login
+router.get("/", getAllUsuariosHandler);     // listar todos (opcionalmente pode ser privado)
+router.get("/:id_usuario", getUsuarioByIdHandler);
+
+// Rotas privadas (só usuário autenticado pode mexer)
+router.put("/:id_usuario", autenticar, updateUsuarioHandler);
+router.delete("/:id_usuario", autenticar, deleteUsuarioHandler);
 
 module.exports = router;
