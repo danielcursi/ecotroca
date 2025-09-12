@@ -1,35 +1,47 @@
 import Button from "../components/button/Button";
 import svg from "../assets/Login-bro.svg";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Adicione esta linha
+import { useNavigate } from "react-router-dom";
+import { cadastrarUsuario } from "../services/usuarioServico";
 
 export default function NewUser() {
   const [name, setName] = useState("");
-  const [cpf, setCpf] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Adicione esta linha
+  const [cidade, setCidade] = useState("");
+  const [bairro, setBairro] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newUser = {
-      id: cpf,
-      username: name,
-      phone: phone,
+      nome: name,
+      telefone: phone,
       email: email,
-      password: password,
+      senha: password,
+      cidade,
+      bairro
     };
 
-    alert("Usuário cadastrado!");
+    try {
+      await cadastrarUsuario(newUser); // envia para o backend
+      alert("Usuário cadastrado com sucesso!");
+      
+      // limpa campos
+      setName("");
+      setPhone("");
+      setEmail("");
+      setPassword("");
+      setCidade("");
+      setBairro("");
 
-    console.log({ newUser });
-    setName("");
-    setCpf("");
-    setPhone("");
-    setEmail("");
-    setPassword("");
+      navigate("/login");
+    } catch (error) {
+      alert("Erro ao cadastrar usuário. Verifique os dados e tente novamente.");
+      console.error("Erro no cadastro:", error);
+    }
   };
 
   return (
@@ -38,9 +50,9 @@ export default function NewUser() {
         <img src={svg} alt="imagem" />
       </div>
       <div className="form-register">
-
         <form onSubmit={handleSubmit} className="form">
           <h1>Crie seu cadastro</h1>
+
           <label>Nome:</label>
           <input
             type="text"
@@ -49,51 +61,54 @@ export default function NewUser() {
             required
             placeholder="Digite seu nome"
           />
-          <label>CPF:</label>
-          <input
-            type="text"
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
-            placeholder="Digite seu CPF"
-            required
-          />
+
           <label>Telefone:</label>
           <input
             type="text"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Digite seu telefone"
             required
+            placeholder="Digite seu telefone"
           />
+
+          <label>Cidade:</label>
+          <input
+            type="text"
+            value={cidade}
+            onChange={(e) => setCidade(e.target.value)}
+            required
+            placeholder="Digite sua cidade"
+          />
+
+          <label>Bairro:</label>
+          <input
+            type="text"
+            value={bairro}
+            onChange={(e) => setBairro(e.target.value)}
+            required
+            placeholder="Digite seu bairro"
+          />
+
           <label>Email:</label>
           <input
             type="email"
-            name="email"
-            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Digite seu email"
             required
+            placeholder="Digite seu email"
           />
-          <label>Senha</label>
+
+          <label>Senha:</label>
           <input
             type="password"
-            name="password"
-            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Digite sua senha"
             required
+            placeholder="Digite sua senha"
           />
-          <button className="button-register">Cadastre-se</button>
-          <button
-          type="button"
-          className="button-register"
-          onClick={() => navigate(-1)}
-          
-        >
-          Voltar
-        </button>
+
+          <button type="submit" className="button-register">Cadastre-se</button>
+          <button type="button" className="button-register" onClick={() => navigate(-1)}>Voltar</button>
         </form>
       </div>
     </section>

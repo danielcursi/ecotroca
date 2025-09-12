@@ -4,9 +4,9 @@ import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash, FaArrowLeft } from "react-icons/fa";
 import logo from "../assets/Logo-colorida.png";
 import Button from "../components/button/Button";
-import data from "../components/database.json";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUsuario } from "../services/usuarioServico";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,33 +15,28 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const allUsers = data.users;
-    const foundUser = allUsers.find(
-      (user) => user.email === email && user.password === password
-    );
+    try {
+      const response = await loginUsuario({ email, senha: password });
 
-    if (foundUser) {
-      // Se um usuário foi encontrado
-      localStorage.setItem("tokenUser", foundUser.id);
-      alert(`Bem-vindo, ${foundUser.email}!\nRedirecionando para o perfil...`);
+      localStorage.setItem("tokenUser", response.token);
+      localStorage.setItem("usuario", JSON.stringify(response.usuario));
+
+      alert(`Bem-vindo, ${response.usuario.nome}!\nRedirecionando para o perfil...`);
       navigate("/profile");
-    } else {
+    } catch (error) {
       alert("Usuário não encontrado ou credenciais inválidas!");
+      console.error("Erro no login:", error);
       setEmail("");
       setPassword("");
     }
   };
 
-  function voltarPagina() {
-    navigate(-1);
-  }
-
   const toggleType = () => {
     setType((tp) => (tp === "password" ? "text" : "password"));
-    setIcon((teste) => !teste);
+    setIcon((ic) => !ic);
   };
 
   return (
@@ -54,46 +49,41 @@ export default function Login() {
           <h2>Bem-vindo</h2>
           <p>Faça login para continuar trocando de forma sustentável</p>
         </section>
+
         <label>E-mail</label>
         <div className="login-input">
           <MdOutlineEmail className="search-icon" />
           <input
             type="email"
-            name="email"
-            id="email"
-            placeholder="seu@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder="seu@email.com"
           />
         </div>
+
         <label>Senha</label>
         <div className="login-input">
           <TbLockPassword className="search-icon svgEye" />
           <input
             type={useType}
-            name="password"
-            id="password"
-            placeholder="Digite sua senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder="Digite sua senha"
           />
           <button type="button" className="password-eye" onClick={toggleType}>
             {icon ? <IoEyeOutline /> : <FaRegEyeSlash />}
           </button>
         </div>
+
         <button className="btn-login">Entrar</button>
         <p style={{ color: "#788594" }}>Não tem uma conta?</p>
-        <Button to={"/newUser"} text={"Cadastre-se gratuitamente"} />
+        <Button to="/newUser" text="Cadastre-se gratuitamente" />
       </form>
-      <button
-        onClick={voltarPagina}
-        className="button-arrow"
-        style={{ marginBottom: "1rem" }}
-      >
-        <FaArrowLeft />
-        Voltar
+
+      <button onClick={() => navigate(-1)} className="button-arrow" style={{ marginBottom: "1rem" }}>
+        <FaArrowLeft /> Voltar
       </button>
     </section>
   );
