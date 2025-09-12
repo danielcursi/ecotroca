@@ -8,48 +8,63 @@ const {
   loginUsuario
 } = require("../models/usuarioModel");
 
+// === Listar todos os usuários ===
 exports.getAllUsuariosHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
   try {
     const usuarios = await getAllUsuarios();
-    logger.info({ correlationId }, 'Listando todos os usuarios');
+    logger.info({ correlationId }, 'Listando todos os usuários');
     res.status(200).json(usuarios);
   } catch (err) {
-    logger.error({ correlationId, err }, 'Erro ao listar usuarios');
+    logger.error({ correlationId, err }, 'Erro ao listar usuários');
     res.status(500).json({ error: err.message });
   }
 };
 
+// === Buscar usuário por ID ===
 exports.getUsuarioByIdHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
   const id_usuario = parseInt(req.params.id_usuario);
 
   if (isNaN(id_usuario)) {
-    logger.warn({ correlationId }, 'ID de usuario invalido');
-    return res.status(400).json({ error: 'ID INVALIDO' });
+    logger.warn({ correlationId }, 'ID de usuário inválido');
+    return res.status(400).json({ error: 'ID inválido' });
   }
 
   try {
     const usuario = await getUsuarioById(id_usuario);
     if (!usuario) {
-      logger.warn({ correlationId, id_usuario }, 'Usuario nao encontrado');
-      return res.status(404).json({ error: 'Usuario nao encontrado' });
+      logger.warn({ correlationId, id_usuario }, 'Usuário não encontrado');
+      return res.status(404).json({ error: 'Usuário não encontrado' });
     }
-    logger.info({ correlationId, id_usuario }, 'Usuario encontrado');
+    logger.info({ correlationId, id_usuario }, 'Usuário encontrado');
     res.status(200).json(usuario);
   } catch (err) {
-    logger.error({ correlationId, err }, 'Erro ao buscar usuario por ID');
+    logger.error({ correlationId, err }, 'Erro ao buscar usuário por ID');
     res.status(500).json({ error: err.message });
   }
 };
 
+// === Adicionar novo usuário ===
 exports.addUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
+
+  if (!req.body) {
+    logger.warn({ correlationId }, 'Corpo da requisição vazio');
+    return res.status(400).json({ error: 'Requisição inválida' });
+  }
+
   const { nome, email, senha, telefone, cidade, bairro } = req.body;
+
+  // Validação de campos obrigatórios
+  if (!nome || !email || !senha || !telefone || !cidade || !bairro) {
+    logger.warn({ correlationId }, 'Campos obrigatórios ausentes');
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+  }
 
   try {
     const usuarioNovo = await addUsuario({ nome, email, senha, telefone, cidade, bairro });
-    logger.info({ correlationId, email }, 'Novo usuario criado');
+    logger.info({ correlationId, email }, 'Novo usuário criado');
     res.status(201).json(usuarioNovo);
   } catch (err) {
     logger.error({ correlationId, err }, 'Erro ao adicionar usuário');
@@ -57,8 +72,15 @@ exports.addUsuarioHandler = async (req, res) => {
   }
 };
 
+// === Login de usuário ===
 exports.loginUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
+
+  if (!req.body) {
+    logger.warn({ correlationId }, 'Corpo da requisição vazio');
+    return res.status(400).json({ error: 'Requisição inválida' });
+  }
+
   const { email, senha } = req.body;
 
   if (!email || !senha) {
@@ -76,42 +98,56 @@ exports.loginUsuarioHandler = async (req, res) => {
     });
   } catch (err) {
     logger.error({ correlationId, err }, 'Erro ao realizar login');
-    res.status(500).json({ error: err.message });
+    res.status(401).json({ error: err.message });
   }
 };
 
+// === Atualizar usuário ===
 exports.updateUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
   const id_usuario = parseInt(req.params.id_usuario);
+
+  if (!req.body) {
+    logger.warn({ correlationId }, 'Corpo da requisição vazio');
+    return res.status(400).json({ error: 'Requisição inválida' });
+  }
+
   const { nome, email, senha, telefone, cidade, bairro } = req.body;
+
+  // Validação mínima
+  if (!nome && !email && !senha && !telefone && !cidade && !bairro) {
+    logger.warn({ correlationId }, 'Nenhum campo para atualizar');
+    return res.status(400).json({ error: 'Nenhum campo informado para atualização' });
+  }
 
   try {
     const usuarioAtualizado = await updateUsuario(id_usuario, { nome, email, senha, telefone, cidade, bairro });
-    logger.info({ correlationId, id_usuario }, 'Usuario atualizado com sucesso');
+    logger.info({ correlationId, id_usuario }, 'Usuário atualizado com sucesso');
     res.status(200).json({
-      user: usuarioAtualizado,
-      message: "Usuario atualizado com sucesso!"
+      usuario: usuarioAtualizado,
+      message: "Usuário atualizado com sucesso!"
     });
   } catch (err) {
-    logger.error({ correlationId, err }, 'Erro ao atualizar usuario');
+    logger.error({ correlationId, err }, 'Erro ao atualizar usuário');
     res.status(500).json({ error: err.message });
   }
 };
 
+// === Deletar usuário ===
 exports.deleteUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
   const id_usuario = parseInt(req.params.id_usuario);
 
   try {
     await deleteUsuario(id_usuario);
-    logger.info({ correlationId, id_usuario }, 'Usuario deletado com sucesso');
-    res.status(204).json({ message: 'Usuario deletado com sucesso!' });
+    logger.info({ correlationId, id_usuario }, 'Usuário deletado com sucesso');
+    res.status(204).json({ message: 'Usuário deletado com sucesso!' });
   } catch (err) {
-    if (err.message === "Usuario nao encontrado") {
-      logger.warn({ correlationId, id_usuario }, 'Tentativa de deletar usuario inexistente');
-      return res.status(404).json({ error: "Usuario nao existe" });
+    if (err.message.includes("não encontrado") || err.message.includes("Usuario nao encontrado")) {
+      logger.warn({ correlationId, id_usuario }, 'Tentativa de deletar usuário inexistente');
+      return res.status(404).json({ error: "Usuário não existe" });
     }
-    logger.error({ correlationId, err }, 'Erro ao deletar usuario');
-    res.status(500).json({ error: 'Erro ao deletar usuario' });
+    logger.error({ correlationId, err }, 'Erro ao deletar usuário');
+    res.status(500).json({ error: 'Erro ao deletar usuário' });
   }
 };
