@@ -342,12 +342,18 @@
 .photo {
   background-color: #fff;
   border-radius: 10px;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 1rem;
-  max-width: 17rem;
-  height: 10rem;
+  width: auto;
+  height: 15rem;
+}
+.photo-preview{
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .photo p {
@@ -355,6 +361,27 @@
   font-size: 0.88rem;
 }
 
+#img-hover{
+  transition: transform 0.3 ease-out;
+}
+
+#img-hover:hover{
+  transform: scale(1.2);
+}
+/* span campos obrigatórios*/
+.item-required{
+  color: rgb(202, 11, 11);
+}
+
+#upload-btn{
+  padding: 8px;
+  background-color:#059769;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+}
 /* === Botões === */
 .button-form {
   background-color: #059769;
