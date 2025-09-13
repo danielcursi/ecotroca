@@ -1,18 +1,11 @@
 const logger = require("../logger/logger");
-const {
-  getAllUsuarios,
-  getUsuarioById,
-  addUsuario,
-  updateUsuario,
-  deleteUsuario,
-  loginUsuario
-} = require("../models/usuarioModel");
+const usuarioModel = require("../models/usuarioModel");
 
 // === Listar todos os usuários ===
 exports.getAllUsuariosHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
   try {
-    const usuarios = await getAllUsuarios();
+    const usuarios = await usuarioModel.getAllUsuarios();
     logger.info({ correlationId }, 'Listando todos os usuários');
     res.status(200).json(usuarios);
   } catch (err) {
@@ -32,7 +25,7 @@ exports.getUsuarioByIdHandler = async (req, res) => {
   }
 
   try {
-    const usuario = await getUsuarioById(id_usuario);
+    const usuario = await usuarioModel.getUsuarioById(id_usuario);
     if (!usuario) {
       logger.warn({ correlationId, id_usuario }, 'Usuário não encontrado');
       return res.status(404).json({ error: 'Usuário não encontrado' });
@@ -48,22 +41,15 @@ exports.getUsuarioByIdHandler = async (req, res) => {
 // === Adicionar novo usuário ===
 exports.addUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
+  const { nome, email, senha, telefone, cidade, bairro } = req.body || {};
 
-  if (!req.body) {
-    logger.warn({ correlationId }, 'Corpo da requisição vazio');
-    return res.status(400).json({ error: 'Requisição inválida' });
-  }
-
-  const { nome, email, senha, telefone, cidade, bairro } = req.body;
-
-  // Validação de campos obrigatórios
   if (!nome || !email || !senha || !telefone || !cidade || !bairro) {
     logger.warn({ correlationId }, 'Campos obrigatórios ausentes');
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
   }
 
   try {
-    const usuarioNovo = await addUsuario({ nome, email, senha, telefone, cidade, bairro });
+    const usuarioNovo = await usuarioModel.addUsuario({ nome, email, senha, telefone, cidade, bairro });
     logger.info({ correlationId, email }, 'Novo usuário criado');
     res.status(201).json(usuarioNovo);
   } catch (err) {
@@ -75,13 +61,7 @@ exports.addUsuarioHandler = async (req, res) => {
 // === Login de usuário ===
 exports.loginUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
-
-  if (!req.body) {
-    logger.warn({ correlationId }, 'Corpo da requisição vazio');
-    return res.status(400).json({ error: 'Requisição inválida' });
-  }
-
-  const { email, senha } = req.body;
+  const { email, senha } = req.body || {};
 
   if (!email || !senha) {
     logger.warn({ correlationId }, 'Email ou senha ausente');
@@ -89,13 +69,9 @@ exports.loginUsuarioHandler = async (req, res) => {
   }
 
   try {
-    const { usuario, token } = await loginUsuario(email, senha);
+    const { usuario, token } = await usuarioModel.loginUsuario(email, senha);
     logger.info({ correlationId, email }, 'Login realizado com sucesso');
-    res.status(200).json({
-      message: 'Login realizado com sucesso!',
-      usuario,
-      token
-    });
+    res.status(200).json({ message: 'Login realizado com sucesso!', usuario, token });
   } catch (err) {
     logger.error({ correlationId, err }, 'Erro ao realizar login');
     res.status(401).json({ error: err.message });
@@ -106,27 +82,17 @@ exports.loginUsuarioHandler = async (req, res) => {
 exports.updateUsuarioHandler = async (req, res) => {
   const correlationId = req.headers['x-correlation-id'];
   const id_usuario = parseInt(req.params.id_usuario);
+  const { nome, email, senha, telefone, cidade, bairro } = req.body || {};
 
-  if (!req.body) {
-    logger.warn({ correlationId }, 'Corpo da requisição vazio');
-    return res.status(400).json({ error: 'Requisição inválida' });
-  }
-
-  const { nome, email, senha, telefone, cidade, bairro } = req.body;
-
-  // Validação mínima
   if (!nome && !email && !senha && !telefone && !cidade && !bairro) {
     logger.warn({ correlationId }, 'Nenhum campo para atualizar');
     return res.status(400).json({ error: 'Nenhum campo informado para atualização' });
   }
 
   try {
-    const usuarioAtualizado = await updateUsuario(id_usuario, { nome, email, senha, telefone, cidade, bairro });
+    const usuarioAtualizado = await usuarioModel.updateUsuario(id_usuario, { nome, email, senha, telefone, cidade, bairro });
     logger.info({ correlationId, id_usuario }, 'Usuário atualizado com sucesso');
-    res.status(200).json({
-      usuario: usuarioAtualizado,
-      message: "Usuário atualizado com sucesso!"
-    });
+    res.status(200).json({ usuario: usuarioAtualizado, message: "Usuário atualizado com sucesso!" });
   } catch (err) {
     logger.error({ correlationId, err }, 'Erro ao atualizar usuário');
     res.status(500).json({ error: err.message });
@@ -139,7 +105,7 @@ exports.deleteUsuarioHandler = async (req, res) => {
   const id_usuario = parseInt(req.params.id_usuario);
 
   try {
-    await deleteUsuario(id_usuario);
+    await usuarioModel.deleteUsuario(id_usuario);
     logger.info({ correlationId, id_usuario }, 'Usuário deletado com sucesso');
     res.status(204).json({ message: 'Usuário deletado com sucesso!' });
   } catch (err) {
@@ -149,5 +115,23 @@ exports.deleteUsuarioHandler = async (req, res) => {
     }
     logger.error({ correlationId, err }, 'Erro ao deletar usuário');
     res.status(500).json({ error: 'Erro ao deletar usuário' });
+  }
+};
+
+// === Resetar senha (usuário não logado) ===
+exports.resetarSenhaHandler = async (req, res) => {
+  const { email, novaSenha } = req.body || {};
+
+  if (!email || !novaSenha) {
+    return res.status(400).json({ error: "Email e nova senha são obrigatórios" });
+  }
+
+  try {
+    await usuarioModel.resetarSenha(email, novaSenha);
+    logger.info({ email }, "Senha redefinida com sucesso!");
+    res.json({ message: "Senha redefinida com sucesso!" });
+  } catch (error) {
+    logger.error({ email, err: error }, "Erro ao redefinir senha");
+    res.status(400).json({ error: error.message });
   }
 };

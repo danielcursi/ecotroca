@@ -8,6 +8,8 @@ import ItemList from "./pages/ItemList";
 import RegisterItem from "./pages/RegisterItem";
 import NewUser from "./pages/NewUser";
 
+import AlterarSenha from "./pages/AlterarSenha";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -48,6 +50,10 @@ const router = createBrowserRouter([
     path: "/newUser",
     element: <NewUser />,
   },
+  {
+    path: "/AlterarSenha",
+    element: <AlterarSenha />,
+  }
 ]);
 
 export default router;

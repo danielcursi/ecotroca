@@ -70,13 +70,47 @@ const deletarUsuario = async (id_usuario, token) => {
   }
 };
 
+// Alterar senha (precisa de autenticação/token)
+const alterarSenha = async ({ senhaAtual, novaSenha }) => {
+  try {
+    const token = localStorage.getItem("tokenUser"); // ou de onde você armazena
+    const response = await api.put(
+      "/api/usuarios/alterar-senha",
+      { senhaAtual, novaSenha },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao alterar senha:", error);
+    throw error;
+  }
+};
+
+
+// Resetar senha (usuário não logado, usando email)
+const resetarSenha = async ({ email, novaSenha }) => {
+  try {
+    const response = await api.post("/api/usuarios/resetar-senha", { email, novaSenha });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao resetar senha:", error);
+    throw error;
+  }
+};
+
+
+
 export {
   buscarUsuarios,
   buscarUsuarioPorId,
   cadastrarUsuario,
   loginUsuario,
   atualizarUsuario,
-  deletarUsuario
+  deletarUsuario,
+  alterarSenha,
+  resetarSenha
 };
 
 

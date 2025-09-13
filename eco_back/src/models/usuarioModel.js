@@ -126,3 +126,22 @@ exports.deleteUsuario = async (id_usuario) => {
     where: { id_usuario: Number(id_usuario) }
   });
 };
+
+// === Resetar senha (usuário não logado) ===
+exports.resetarSenha = async (email, novaSenha) => {
+  if (!email || !novaSenha) {
+    throw new Error("Email e nova senha são obrigatórios");
+  }
+
+  const usuario = await prisma.usuario.findUnique({ where: { email } });
+  if (!usuario) {
+    throw new Error("Usuário não encontrado");
+  }
+
+  const novaSenhaHash = await bcrypt.hash(novaSenha, 10);
+
+  return prisma.usuario.update({
+    where: { email },
+    data: { senha_hash: novaSenhaHash }
+  });
+};
