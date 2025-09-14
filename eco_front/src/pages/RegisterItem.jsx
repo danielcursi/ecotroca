@@ -70,27 +70,20 @@ export default function NewItem() {
       alert("Erro ao cadastrar item. Verifique os dados e tente novamente.");
     }
   };
-
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+  const file = e.target.files[0]; // só pega o primeiro arquivo
 
-    if (files.length + images.length > 5) {
-      alert("Você só pode adicionar até 5 fotos.");
-      return;
-    }
+  if (!file) return;
 
-    files.forEach((file) => {
-      const reader = new FileReader();
+  const reader = new FileReader();
 
-      reader.onloadend = () => {
-        setImages((prev) => [
-          ...prev,
-          { base64: reader.result, preview: URL.createObjectURL(file) },
-        ]);
-      };
+  reader.onloadend = () => {
+    setImages([{ base64: reader.result, preview: URL.createObjectURL(file) }]); // substitui qualquer imagem anterior
+  };
 
-      reader.readAsDataURL(file);
-    });
+  reader.readAsDataURL(file);
+};
+  
   };
 
   const categories = [
@@ -206,16 +199,15 @@ export default function NewItem() {
             <section className="photo">
               <div>
                 <h2>Fotos do Item</h2>
-                <p>Adicione até 5 fotos do seu item</p>
+                <p>Adicione apenas uma foto do seu item</p>
               </div>
 
               <input
-                type="file"
-                className="form-control"
-                accept="image/*"
-                multiple
-                onChange={handleImageChange}
-              />
+  type="file"
+  className="form-control"
+  accept="image/*"
+  onChange={handleImageChange}
+/>
 
               <div className="photo-preview">
                 {images.map((img, index) => (
