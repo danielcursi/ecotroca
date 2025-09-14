@@ -1,43 +1,60 @@
-
+import { Link } from "react-router-dom";
+import Card from "../components/card/Card";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { useState } from "react";
-
 import { cadastrarItem } from "../services/itemServico";
 import { buscarUsuarioPorId } from "../services/usuarioServico";
-i
 
 export default function NewItem() {
+  const [idUsuario, setIdUsuario] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tipe, setTipe] = useState("");
   const [estado, setEstado] = useState("");
-  const [images, setImages] = useState([]); 
+  const [images, setImages] = useState([]);
 
   const navigate = useNavigate();
 
-  function voltarPagina() {
-    navigate(-1);
-  }
+  // Buscar usuário logado no backend
+  useEffect(() => {
+    async function fetchUsuario() {
+      try {
+        const id = localStorage.getItem("id_usuario"); 
+        if (id) {
+          const usuario = await buscarUsuarioPorId(id);
+          setIdUsuario(usuario.id_usuario); 
+        }
+      } catch (err) {
+        console.error("Erro ao buscar usuário:", err);
+      }
+    }
+    fetchUsuario();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // transformar imagens em base64 para enviar ao backend
-    const foto_uris = images.map((img) => img.base64);
+    if (!idUsuario) {
+      alert("Usuário não identificado.");
+      return;
+    }
+
+    // remove o prefixo data:image/... do base64
+    const foto_uris = images.map((img) => img.base64.split(",")[1]);
 
     const newItem = {
-      id_categoria: parseInt(tipe),
+      id_categoria: parseInt(tipe), 
       titulo: title,
       descricao: description,
       condicao: estado,
-      foto_uris: foto_uris, 
-      id_usuario_proprietario: id_usuario, 
-      status_item: "disponivel", // coloquei valor fixo, pode mudar se backend exigir outro
+      foto_uris: foto_uris,
+      id_usuario_proprietario: idUsuario, 
+      status_item: "disponivel",
     };
 
     try {
-      await cadastrarItem(newItem); // envia para o backend
+      await cadastrarItem(newItem);
       alert("Item cadastrado com sucesso!");
 
       // limpa campos
@@ -49,8 +66,8 @@ export default function NewItem() {
 
       navigate("/profile");
     } catch (error) {
+      console.error("Erro no cadastro:", error.response?.data || error);
       alert("Erro ao cadastrar item. Verifique os dados e tente novamente.");
-      console.error("Erro no cadastro:", error);
     }
   };
 
@@ -72,7 +89,7 @@ export default function NewItem() {
         ]);
       };
 
-      reader.readAsDataURL(file); // converte p/ base64
+      reader.readAsDataURL(file);
     });
   };
 
@@ -95,6 +112,10 @@ export default function NewItem() {
     "Estado regular",
     "Para reparo",
   ];
+
+  function voltarPagina() {
+    navigate(-1);
+  }
 
   return (
     <>
@@ -142,7 +163,7 @@ export default function NewItem() {
                   >
                     <option value="">Selecione</option>
                     {categories.map((item, index) => (
-                      <option key={index} value={item}>
+                      <option key={index} value={index + 1}>
                         {item}
                       </option>
                     ))}
