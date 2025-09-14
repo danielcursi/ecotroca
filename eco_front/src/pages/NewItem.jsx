@@ -1,35 +1,40 @@
-import { useParams } from "react-router-dom";
-import { users } from "../components/database.json";
+import { useParams, useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import { useEffect, useState } from "react";
+
+import { buscarDadosItemId } from "../services/itemServico";
 import CardItem from "../components/cardDetalheItem/CardItem";
 import CardDono from "../components/cardDetalheItem/CardDono";
-import { useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
 
 export default function NewItem() {
   const navigate = useNavigate();
+  const { id } = useParams(); // pega o id da rota
+
+  const [item, setItem] = useState(null);
+  const [user, setUser] = useState(null); // dono do item
 
   function voltarPagina() {
     navigate(-1);
   }
 
-  const { id } = useParams();
+  useEffect(() => {
+    const fetchItem = async () => {
+      try {
+        const dados = await buscarDadosItemId(id);
+        setItem(dados);
 
-  const result = userDono(id);
-
-  if (!result) {
-    return <p>Produto não encontrado</p>;
-  }
-
-  const { item, user } = result;
-
-  function userDono(itemId) {
-    for (const user of users) {
-      const item = user.products.find((p) => p.id === itemId);
-      if (item) {
-        return { item, user };
+          //NAO ESTA FAZENDO A CHAMADA DO DONO
+          
+      } catch (error) {
+        console.error("Erro ao buscar item:", error);
       }
-    }
-    return null;
+    };
+
+    fetchItem();
+  }, [id]);
+
+  if (!item) {
+    return <p>Carregando item...</p>;
   }
 
   return (
@@ -44,13 +49,13 @@ export default function NewItem() {
           Voltar
         </button>
       </div>
+
       <div className="detail-item">
         <CardItem
-          img={item.image}
-          title={item.title}
-          location={item.location}
-          description={item.description}
-          category={item.category}
+          img={item.foto_uris}
+          title={item.titulo}
+          description={item.descricao}
+          category={item.condicao}
         />
 
         <CardDono user={user.username} rota="/profile" />
