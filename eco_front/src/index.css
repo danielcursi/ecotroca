@@ -1020,3 +1020,217 @@
   outline: 2px solid #059769;
   outline-offset: 2px;
 }
+
+/* === Layout Principal === */
+.profile-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+  color: #1e293b;
+}
+
+/* === Sidebar === */
+.profile-sidebar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Card do Perfil */
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+.profile-card:hover {
+  transform: translateY(-4px);
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #22c55e22;
+}
+
+.profile-card h2 {
+  margin: 0.5rem 0;
+  font-size: 1.3rem;
+}
+
+.member-since {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.badge {
+  display: inline-block;
+  background: #22c55e;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  margin: 0.5rem 0 1rem;
+}
+
+.btn-edit {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+.btn-edit:hover {
+  background: #334155;
+}
+
+.profile-info {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  text-align: left;
+  color: #475569;
+}
+.profile-info p {
+  margin: 0.4rem 0;
+}
+
+/* Estatísticas */
+.profile-stats {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+.profile-stats h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+.profile-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.profile-stats li {
+  margin: 0.6rem 0;
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* === Conteúdo Principal === */
+.profile-content {
+  flex: 1;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+.tabs button {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 0;
+  cursor: pointer;
+  color: #475569;
+  transition: color 0.3s ease, border 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+.tabs .active {
+  color: #1e293b;
+  border-color: #1e293b;
+}
+
+/* Cabeçalho de Itens */
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.items-header h3 {
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+.btn-add {
+  background: #1e293b;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+.btn-add:hover {
+  background: #334155;
+}
+
+/* Grid de Itens */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Estilo dos Cards (se quiser substituir no <Card/>) */
+.card-item {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+.card-item:hover {
+  transform: translateY(-6px);
+}
+.card-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.card-body {
+  padding: 1rem;
+}
+.card-body h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+.card-body p {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-bottom: 0.8rem;
+}
+.card-body button {
+  width: 100%;
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+.card-body button:hover {
+  background: #334155;
+}

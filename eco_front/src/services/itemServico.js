@@ -1,54 +1,52 @@
 import api from './api';
 
-const buscarDadosItem = async () => {
+// Buscar todos os itens
+export const buscarDadosItem = async () => {
   try {
-    const res = await api.get('/api/item');
+    const res = await api.get('/api/itens');
     return res.data;
   } catch (error) {
-    throw new Error('Falha ao listar item: ' + error.message);
+    throw new Error('Falha ao listar itens: ' + error.message);
   }
 };
 
-const buscarDadosItemId = async (id_item) => {
+// Buscar item por ID
+export const buscarDadosItemId = async (id_item) => {
   try {
-    const res = await api.get(`/api/item/${id_item}`);
+    const res = await api.get(`/api/itens/${id_item}`);
     return res.data;
   } catch (error) {
     throw new Error('Erro ao buscar item pelo id: ' + error.message);
   }
 };
 
-const cadastrarItem = async (payload) => {
+// Cadastrar novo item
+export const cadastrarItem = async (payload) => {
   try {
-    const res = await api.post('/api/item', payload);
+    const res = await api.post('/api/itens', payload);
     return res.data;
   } catch (error) {
-    throw new Error('Falha ao cadastrar item: ' + error.message);
+    console.error("Erro na API ao cadastrar item:", error.response?.data || error.message);
+    throw new Error('Falha ao cadastrar item: ' + (error.response?.data?.error || error.message));
   }
 };
 
-const atualizarItem = async (id_item, payload) => {
+// Atualizar item existente
+export const atualizarItem = async (id_item, payload) => {
   try {
-    const res = await api.put(`/api/item/${id_item}`, payload);
+    const res = await api.put(`/api/itens/${id_item}`, payload);
     return res.data;
   } catch (error) {
     throw new Error('Falha ao atualizar item: ' + error.message);
   }
 };
 
-const deletarItem = async (id_item) => {
+// Deletar item
+export const deletarItem = async (id_item) => {
   try {
-    const res = await api.delete(`/api/item/${id_item}`);
+    const res = await api.delete(`/api/itens/${id_item}`);
     return res.status === 204 ? true : res.data;
   } catch (error) {
     throw new Error('Falha ao deletar item: ' + error.message);
   }
-};
-
-export default {
-  buscarDadosItem,
-  buscarDadosItemId,
-  cadastrarItem,
-  atualizarItem,
-  deletarItem
 };
