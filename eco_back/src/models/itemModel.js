@@ -14,7 +14,23 @@ exports.getItemById = async (id_item) => {
 };
 
 exports.addItem = async (data) => {
-  return prisma.item.create({ data });
+  try {
+    const item = await prisma.item.create({
+      data: {
+        id_categoria: data.id_categoria,
+        titulo: data.titulo,
+        descricao: data.descricao,
+        condicao: data.condicao,
+        foto_uris: JSON.stringify(data.foto_uris || []), // garante string
+        id_usuario_proprietario: data.id_usuario_proprietario,
+        status_item: data.status_item.toUpperCase(), // garante enum válido
+      },
+    });
+    return item;
+  } catch (err) {
+    console.error("Erro ao criar item:", err);
+    throw err; // propaga para o handler
+  }
 };
 
 exports.updateItem = async (id_item, data) => {
