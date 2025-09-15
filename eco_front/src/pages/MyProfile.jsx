@@ -1,30 +1,101 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Card from "../components/card/Card";
 import { buscarUsuarioPorId } from "../services/usuarioServico";
 
+import { buscarDadosItem, atualizarItem, deletarItem } from "../services/itemServico";
+
 export default function MyProfile() {
   const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    const usuarioSalvo = localStorage.getItem("usuario");
-    if (usuarioSalvo) {
-      const usuario = JSON.parse(usuarioSalvo);
-      
-      // Busca os dados completos do usuário via API
-      const fetchProfile = async () => {
-        try {
-          const dadosCompletos = await buscarUsuarioPorId(usuario.id_usuario);
-          setProfile(dadosCompletos);
-        } catch (error) {
-          console.error("Erro ao buscar dados do usuário:", error);
-        }
-      };
-
-      fetchProfile();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+ async function load(){
+    try{
+      setLoading(true)
+      const {data} = await buscarDadosItem();
+      setProfile(data)
     }
+
+    catch(error){
+      setError(error.message)
+    }
+
+    finally{
+      setLoading(false)
+    }
+ }
+
+  // buscar perfil do usuário e itens
+  useEffect(() => {
+    load() 
+    const usuarioSalvo = localStorage.getItem("usuario");
+    if (!usuarioSalvo) {
+      setLoading(false);
+      return;
+    }
+
+    const usuario = JSON.parse(usuarioSalvo);
+
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const dadosCompletos = await buscarUsuarioPorId(usuario.id_usuario);
+        setProfile(dadosCompletos);
+      } catch (err) {
+        console.error("Erro ao buscar dados do usuário:", err);
+        setError("Erro ao carregar perfil");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
-  if (!profile) return <p>Carregando perfil...</p>;
+  // função para deletar item
+  const handleDelete = async (id_item) => {
+  if (!window.confirm("Confirma a exclusão do item?")) return;
+
+  try {
+    await deletarItem(id_item);
+
+    // Atualizar a lista de itens no estado do profile
+    setProfile(item.filter(a => a.id_item !== id_item))
+  } catch (err) {
+    console.error("Erro ao excluir item:", err);
+    setProfile({
+  ...profile,
+  items: profile.items.filter(a => a.id_item !== id_item)
+});
+  }
+};
+  
+  const renderImg = (item) => {
+    let fotos = item.foto_uris;
+    if (!fotos) return "/placeholder.png";
+
+    if (typeof fotos === "string") {
+      try {
+        fotos = JSON.parse(fotos);
+      } catch {
+        // se não for JSON, assume que é uma única base64
+        fotos = [fotos];
+      }
+    }
+
+    if (Array.isArray(fotos) && fotos.length > 0) {
+      // se as URIs já vêm sem o prefixo, adiciona prefixo base64
+      const first = fotos[0];
+      return first.startsWith("data:") ? first : `data:image/jpeg;base64,${first}`;
+    }
+
+    return "/placeholder.png";
+  };
+
+  if (loading) return <p>Carregando perfil...</p>;
+  if (error) return <p>{error}</p>;
+  if (!profile) return <p>Perfil não encontrado.</p>;
 
   return (
     <section className="profile">
@@ -35,19 +106,37 @@ export default function MyProfile() {
         <p>{profile.cidade} - {profile.bairro}</p>
       </section>
 
-      {profile.products && profile.products.length > 0 && (
+      {profile.items && profile.items.length > 0 ? (
         <section className="card-item">
-          {profile.products.map((item) => (
-            <Card
-              key={item.id}
-              img={item.image}
-              title={item.title}
-              description={item.description}
-              location={item.location}
-              rota={`/item/${item.id}`}
-            />
+          {profile.items.map((item) => (
+            <div key={item.id_item} className="card-wrapper">
+              <Card
+                img={renderImg(item)}
+                title={item.titulo}
+                description={item.descricao}
+                rota={`/item/${item.id_item}`}
+              />
+
+              <div className="card-actions">
+                <Link
+                  to={`/edit-item/${item.id_item}`}
+                  className="btn btn-sm btn-outline-primary"
+                >
+                  Editar
+                </Link>
+
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={() => handleDelete(item.id_item)}
+                >
+                  Excluir
+                </button>
+              </div>
+            </div>
           ))}
         </section>
+      ) : (
+        <p>Você ainda não tem itens cadastrados.</p>
       )}
     </section>
   );
