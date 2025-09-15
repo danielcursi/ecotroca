@@ -1,11 +1,32 @@
 import { FaSearch, FaRecycle, FaUsers, FaBoxOpen } from "react-icons/fa";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/button/Button";
-import data from "../components/database.json";
+
 import Card from "../components/card/Card";
 
-export default function Home() {
-  const allProducts = data.users.flatMap((user) => user.products);
+import {buscarDadosItem} from "../services/itemServico";
+import {useEffect, useState} from "react";
+
+  export default function Home() {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await buscarDadosItem();
+        // Ajuste dependendo do que sua API retorna
+        setItems(response.data || response); 
+      } catch (err) {
+        console.error("Erro ao buscar itens:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, []);
+  
+  
   return (
     <>
       <section className="banner-home">
@@ -48,11 +69,10 @@ export default function Home() {
           {allProducts.map((item, index) =>
             index < 4 ? (
               <Card
-                key={item.id}
-                img={item.image}
-                title={item.title}
-                description={item.description}
-                location={item.location}
+                key={item.id_item}
+                img={item.foto_uris}
+                title={item.titulo}
+                description={item.descricao}
                 rota={`item/${item.id}`}
               />
             ) : null

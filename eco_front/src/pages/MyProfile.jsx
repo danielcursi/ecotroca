@@ -2,75 +2,67 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Card from "../components/card/Card";
 import { buscarUsuarioPorId } from "../services/usuarioServico";
-
-import { buscarDadosItem, atualizarItem, deletarItem } from "../services/itemServico";
+import { buscarItemId,atualizarItem,deletarItem } from "../services/itemServico";
 
 export default function MyProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
- async function load(){
-    try{
-      setLoading(true)
-      const {data} = await buscarDadosItem();
-      setProfile(data)
-    }
-
-    catch(error){
-      setError(error.message)
-    }
-
-    finally{
-      setLoading(false)
-    }
- }
 
   // buscar perfil do usuário e itens
   useEffect(() => {
-    load() 
-    const usuarioSalvo = localStorage.getItem("usuario");
-    if (!usuarioSalvo) {
+  const usuarioSalvo = localStorage.getItem("usuario");
+  if (!usuarioSalvo) {
+    setLoading(false);
+    return;
+  }
+
+  const usuario = JSON.parse(usuarioSalvo);
+
+  const fetchProfile = async () => {
+    try {
+      setLoading(true);
+
+      // busca usuário
+      const dadosUsuario = await buscarUsuarioPorId(usuario.id_usuario);
+
+      // busca itens do usuário
+      const itens = await buscarItemId(usuario.id_usuario);
+
+      // junta os dois
+      setProfile({
+        ...dadosUsuario,
+        items: itens || []
+      });
+
+    } catch (err) {
+      console.error("Erro ao buscar dados:", err);
+      setError("Erro ao carregar perfil");
+    } finally {
       setLoading(false);
-      return;
     }
+  };
 
-    const usuario = JSON.parse(usuarioSalvo);
-
-    const fetchProfile = async () => {
-      try {
-        setLoading(true);
-        const dadosCompletos = await buscarUsuarioPorId(usuario.id_usuario);
-        setProfile(dadosCompletos);
-      } catch (err) {
-        console.error("Erro ao buscar dados do usuário:", err);
-        setError("Erro ao carregar perfil");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+  fetchProfile();
+}, []);
 
   // função para deletar item
   const handleDelete = async (id_item) => {
-  if (!window.confirm("Confirma a exclusão do item?")) return;
+    if (!window.confirm("Confirma a exclusão do item?")) return;
 
-  try {
-    await deletarItem(id_item);
+    try {
+      await deletarItem(id_item);
 
-    // Atualizar a lista de itens no estado do profile
-    setProfile(item.filter(a => a.id_item !== id_item))
-  } catch (err) {
-    console.error("Erro ao excluir item:", err);
-    setProfile({
-  ...profile,
-  items: profile.items.filter(a => a.id_item !== id_item)
-});
-  }
-};
-  
+      // Atualizar a lista de itens no estado do profile
+      setProfile({
+        ...profile,
+        items: profile.items.filter((a) => a.id_item !== id_item),
+      });
+    } catch (err) {
+      console.error("Erro ao excluir item:", err);
+    }
+  };
+
   const renderImg = (item) => {
     let fotos = item.foto_uris;
     if (!fotos) return "/placeholder.png";
@@ -79,13 +71,11 @@ export default function MyProfile() {
       try {
         fotos = JSON.parse(fotos);
       } catch {
-        // se não for JSON, assume que é uma única base64
         fotos = [fotos];
       }
     }
 
     if (Array.isArray(fotos) && fotos.length > 0) {
-      // se as URIs já vêm sem o prefixo, adiciona prefixo base64
       const first = fotos[0];
       return first.startsWith("data:") ? first : `data:image/jpeg;base64,${first}`;
     }
@@ -103,7 +93,9 @@ export default function MyProfile() {
         <h2>{profile.nome}</h2>
         <p>{profile.email}</p>
         <p>{profile.telefone}</p>
-        <p>{profile.cidade} - {profile.bairro}</p>
+        <p>
+          {profile.cidade} - {profile.bairro}
+        </p>
       </section>
 
       {profile.items && profile.items.length > 0 ? (
