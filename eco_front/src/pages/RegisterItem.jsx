@@ -11,7 +11,7 @@ export default function RegisterItem() {
   const [estado, setEstado] = useState("");
   const [local, setLocal] = useState("");
   const [items, setItems] = useState(data);
-  const [images, setImages] = useState([]); // fotos do item
+  const [images, setImages] = useState([]);
 
   function voltarPagina() {
     navigate(-1);
@@ -48,9 +48,9 @@ export default function RegisterItem() {
       category: tipe,
       condition: estado,
       location: local,
+      // Adicionar 
+      // photos: images.map((img) => img.file.name),
     };
-    // Adicionar 
-    // photos: images.map((img) => img.file.name),
 
     setItems([...items, newItem]);
 

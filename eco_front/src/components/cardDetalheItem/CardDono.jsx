@@ -1,10 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { adicionarMensagem } from '../../services/mensagemServico'
 import "./CardDono.css";
 
 export default function CardDono({ user, rota }) {
   const navigate = useNavigate();
   const [texto, setTexto] = useState("");
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+
+    try{
+      await adicionarMensagem(texto)
+    }catch(error) {
+      alert('Erro ao enviar mensagem para usúario')
+      console.error(`Erro ao enviar mensagem ${error.message}`);
+      
+    }
+
+  }
 
   return (
     <div className="container">
@@ -30,7 +44,7 @@ export default function CardDono({ user, rota }) {
             placeholder="Escreva uma mensagem para o dono do item..."
             className="box-message"
           ></textarea>
-          <button className="button-message">Enviar Mensagem</button>
+          <button onClick={handleSubmit} className="button-message">Enviar Mensagem</button>
           <button className="button-troca">Propor Troca</button>
         </div>
         <div className="cardSeguranca">
