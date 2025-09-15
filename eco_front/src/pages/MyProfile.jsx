@@ -1,135 +1,118 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/card/Card";
 import { buscarUsuarioPorId } from "../services/usuarioServico";
-import { buscarItemId,atualizarItem,deletarItem } from "../services/itemServico";
+import { buscarDadosItem } from "../services/itemServico";
 
 export default function MyProfile() {
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [meusItens, setMeusItens] = useState([]);
+  const navigate = useNavigate();
 
-  // buscar perfil do usuário e itens
   useEffect(() => {
-  const usuarioSalvo = localStorage.getItem("usuario");
-  if (!usuarioSalvo) {
-    setLoading(false);
-    return;
-  }
+    const usuarioSalvo = localStorage.getItem("usuario");
+    if (usuarioSalvo) {
+      const usuario = JSON.parse(usuarioSalvo);
 
-  const usuario = JSON.parse(usuarioSalvo);
+      const fetchData = async () => {
+        try {
+          // Buscar dados completos do usuário
+          const dadosCompletos = await buscarUsuarioPorId(usuario.id_usuario);
+          setProfile(dadosCompletos);
 
-  const fetchProfile = async () => {
-    try {
-      setLoading(true);
+          // Buscar todos os itens e filtrar apenas os do usuário logado
+          const itens = await buscarDadosItem();
+          const itensDoUsuario = itens.filter(
+            (item) => item.id_usuario_proprietario === usuario.id_usuario
+          );
 
-      // busca usuário
-      const dadosUsuario = await buscarUsuarioPorId(usuario.id_usuario);
+          setMeusItens(itensDoUsuario);
+        } catch (error) {
+          console.error("Erro ao buscar dados do perfil:", error);
+        }
+      };
 
-      // busca itens do usuário
-      const itens = await buscarItemId(usuario.id_usuario);
-
-      // junta os dois
-      setProfile({
-        ...dadosUsuario,
-        items: itens || []
-      });
-
-    } catch (err) {
-      console.error("Erro ao buscar dados:", err);
-      setError("Erro ao carregar perfil");
-    } finally {
-      setLoading(false);
+      fetchData();
     }
-  };
+  }, []);
 
-  fetchProfile();
-}, []);
-
-  // função para deletar item
-  const handleDelete = async (id_item) => {
-    if (!window.confirm("Confirma a exclusão do item?")) return;
-
-    try {
-      await deletarItem(id_item);
-
-      // Atualizar a lista de itens no estado do profile
-      setProfile({
-        ...profile,
-        items: profile.items.filter((a) => a.id_item !== id_item),
-      });
-    } catch (err) {
-      console.error("Erro ao excluir item:", err);
-    }
-  };
-
-  const renderImg = (item) => {
-    let fotos = item.foto_uris;
-    if (!fotos) return "/placeholder.png";
-
-    if (typeof fotos === "string") {
-      try {
-        fotos = JSON.parse(fotos);
-      } catch {
-        fotos = [fotos];
-      }
-    }
-
-    if (Array.isArray(fotos) && fotos.length > 0) {
-      const first = fotos[0];
-      return first.startsWith("data:") ? first : `data:image/jpeg;base64,${first}`;
-    }
-
-    return "/placeholder.png";
-  };
-
-  if (loading) return <p>Carregando perfil...</p>;
-  if (error) return <p>{error}</p>;
-  if (!profile) return <p>Perfil não encontrado.</p>;
+  if (!profile) return <p>Carregando perfil...</p>;
 
   return (
-    <section className="profile">
-      <section className="card-perfil">
-        <h2>{profile.nome}</h2>
-        <p>{profile.email}</p>
-        <p>{profile.telefone}</p>
-        <p>
-          {profile.cidade} - {profile.bairro}
-        </p>
-      </section>
+    <div className="profile-container">
+      {/* Coluna esquerda */}
+      <aside className="profile-sidebar">
+        <div className="profile-card">
+          <img
+            src={profile.foto || "https://via.placeholder.com/150"}
+            alt="Foto de perfil"
+            className="profile-avatar"
+          />
+          <h2>{profile.nome}</h2>
+          <span className="badge">Usuário Verificado</span>
 
-      {profile.items && profile.items.length > 0 ? (
-        <section className="card-item">
-          {profile.items.map((item) => (
-            <div key={item.id_item} className="card-wrapper">
+          <button className="btn-edit">Editar Perfil</button>
+
+          <div className="profile-info">
+            <p>📧 {profile.email}</p>
+            <p>📞 {profile.telefone}</p>
+            <p>
+              📍 {profile.cidade} - {profile.bairro}
+            </p>
+          </div>
+        </div>
+
+        <div className="profile-stats">
+          <h3>Estatísticas</h3>
+          <ul>
+            <li>
+              <b>Itens Trocados:</b> {profile.itensTrocados || 0}
+            </li>
+            <li>
+              <b>Avaliações:</b> {profile.avaliacoes || 0} ⭐
+            </li>
+            <li>
+              <b>Favoritos:</b> {profile.favoritos || 0}
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      {/* Coluna direita */}
+      <main className="profile-content">
+        <div className="tabs">
+          <button className="active">Meus Itens</button>
+          <button>Favoritos</button>
+          <button>Avaliações</button>
+        </div>
+
+        <div className="items-header">
+          <h3>Meus Itens ({meusItens.length})</h3>
+          <button
+            className="btn-add"
+            onClick={() => navigate("/register-item")}
+          >
+            + Adicionar Item
+          </button>
+        </div>
+
+        <div className="items-grid">
+          {meusItens.length > 0 ? (
+            meusItens.map((item) => (
               <Card
-                img={renderImg(item)}
+                key={item.id_item}
+                img={item.foto_uris || ""} // pega direto a URL da imagem
                 title={item.titulo}
                 description={item.descricao}
+                location={item.localizacao || ""}
                 rota={`/item/${item.id_item}`}
               />
-
-              <div className="card-actions">
-                <Link
-                  to={`/edit-item/${item.id_item}`}
-                  className="btn btn-sm btn-outline-primary"
-                >
-                  Editar
-                </Link>
-
-                <button
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => handleDelete(item.id_item)}
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
-          ))}
-        </section>
-      ) : (
-        <p>Você ainda não tem itens cadastrados.</p>
-      )}
-    </section>
+            ))
+          ) : (
+            <p>Você ainda não adicionou nenhum item.</p>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
