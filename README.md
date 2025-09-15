@@ -1,30 +1,111 @@
-# PROJETO: ♻️ ECOTROCA
-O EcoTroca é uma plataforma que permite cadastrar, visualizar e propor de forma prática e sustentável. A ideia é promover o reuso consciente de itens por meio de um sistema simples de cadastro, visualização e interação entre usuários.
+# ♻️ EcoTroca - Plataforma de Trocas Sustentáveis
+
+O **EcoTroca** é uma plataforma inovadora que promove o reuso consciente de itens, permitindo que usuários cadastrem, visualizem e proponham trocas de forma prática e sustentável, contribuindo para uma economia circular e redução de desperdícios.
 
 ![banner](./eco_front/src/img/ecoTroca.png)
 
-## 🌐 Funcionalidades
-- 🔐 Login de usuários
-- ➕ Cadastro de itens para troca ou venda
-- 📋 Página de listagem e detalhes dos produtos
-- 👤 Página de perfil do usuário 
-- 🔄 Navegação entre páginas com React Router
+---
 
-## 🚀 Tecnologias Utilizadas
-- **React** (framework principal)
-- **React Router Dom** (para navegação entre páginas)
-- **JSON Server** com `database.json` (para simular banco de dados local)
+## 🌟 Funcionalidades Principais
 
-## 💻 Como Rodar o Projeto 
-### Instalar dependências
+- **🔐 Sistema de Autenticação** - Cadastro e login seguro de usuários
+- **📦 Gerenciamento de Itens** - Cadastro, edição e remoção de itens para troca
+- **🔍 Busca Inteligente** - Filtros e busca por categoria, localização e palavras-chave
+- **👤 Perfil Personalizado** - Área do usuário com histórico de trocas e itens cadastrados
+- **🔄 Sistema de Propostas** - Interface para enviar e gerenciar propostas de troca
+- **📱 Design Responsivo** - Experiência otimizada para desktop e dispositivos móveis
+- **⚡ Performance Otimizada** - Navegação rápida com React Router e integração eficiente com backend
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+### **Frontend**
+- ⚛️ React 18+ com hooks
+- 🧭 React Router Dom para navegação
+- 🔄 Axios para consumo de APIs
+- 🎨 CSS moderno com design responsivo
+- 🧩 Componentes modulares e reutilizáveis
+
+### **Backend**
+- 🟢 Node.js com Express
+- 🗄️ Prisma ORM para gestão de banco de dados
+- 🐘 PostgreSQL como banco de dados principal
+- 🔐 JWT para autenticação segura
+- 🛡️ Middlewares de segurança e validação
+
+---
+
+## 🚀 Como Executar o Projeto
+
+### 📋 Pré-requisitos
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- [npm](https://www.npmjs.com/) 
+- Banco de dados PostgreSQL instalado e configurado
+- Git para clonagem do repositório
+
+### 🔧 Configuração e Instalação
+
+#### 1. Clonar o repositório
+```bash
+git clone https://github.com/seu-usuario/ecotroca.git
+cd ecotroca
 ```
+#### 2. Configurar ambiente backend
+```bahs
+# Navegar para diretório do backend
+cd eco_back
+
+# Instalar dependências
+npm install
+
+# Configurar variáveis de ambiente
+cp .env_exemplo .env
+```
+- Edite o arquivo `.env` com suas configurações:
+```bash
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/ecotroca_db"
+JWT_SECRET="seu_jwt_secret_aqui"
+```
+#### 3. Configurar banco de dados
+```bash
+# Executar migrações do Prisma
+npx prisma migrate dev
+
+# Opcional: Popular banco com dados de exemplo
+npx prisma db seed
+```
+### 4. Configurar frontend
+```bash
+# Voltar ao diretório raiz e navegar para frontend
+cd ../eco_front
+
+# Instalar dependências
 npm install
 ```
+### 🎯 Execução da Aplicação
+
+- Opção 1: Executar em terminais separados
+   - Terminal 1 - Backend:
+
+```bash
+cd eco_back
+node server.js
 ```
+- Terminal 2 - Frontend:
+```bash
+cd eco_front
 npm run dev
 ```
+### 🌐 Acessos após inicialização
+- Frontend: http://localhost:5173
 
-## Equipe
+- Backend: http://localhost:3000
+
+- Prisma Studio (para gerenciamento do BD): http://localhost:5555 (execute npx prisma studio no diretório eco_back)
+
+
+## Equipe 7
 <table>
   <tr>
     <td align="center">
@@ -48,6 +129,14 @@ npm run dev
         <img src="https://avatars.githubusercontent.com/u/120529475?v=4" width="100px;" alt="Francisco Ivo"/><br>
         <sub>
           <b>Raynara de Paula</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/stevopablo">
+        <img src="https://avatars.githubusercontent.com/u/148692557?v=4" width="100px;" alt="Francisco Ivo"/><br>
+        <sub>
+          <b>Pablo Lima</b>
         </sub>
       </a>
     </td>
