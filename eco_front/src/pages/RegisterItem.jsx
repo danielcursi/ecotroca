@@ -10,11 +10,6 @@ export default function NewItem() {
   const [description, setDescription] = useState("");
   const [tipe, setTipe] = useState("");
   const [estado, setEstado] = useState("");
-<<<<<<< HEAD
-  const [local, setLocal] = useState("");
-  const [items, setItems] = useState(data);
-=======
->>>>>>> 2d638a1daec58a5560b133d53733a2706afdbade
   const [images, setImages] = useState([]);
 
   const navigate = useNavigate();
@@ -47,24 +42,13 @@ export default function NewItem() {
       : [];
 
     const newItem = {
-<<<<<<< HEAD
-      id: novoId,
-      title,
-      description,
-      category: tipe,
-      condition: estado,
-      location: local,
-      // Adicionar 
-      // photos: images.map((img) => img.file.name),
-=======
       id_categoria: parseInt(tipe),
       titulo: title,
       descricao: description,
       condicao: estado,
-      foto_uris: JSON.stringify(foto_uris), // sempre string JSON
+      foto_uris: JSON.stringify(foto_uris),
       id_usuario_proprietario: idUsuario,
-      status_item: "DISPONIVEL", // enum válido do Prisma
->>>>>>> 2d638a1daec58a5560b133d53733a2706afdbade
+      status_item: "DISPONIVEL",
     };
 
     try {

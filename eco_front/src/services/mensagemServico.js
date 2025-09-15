@@ -1,7 +1,7 @@
 import api from './api';
 const sufix = '/api/mensagens';
 
-exports.buscarMensagens = async () => {
+const buscarMensagens = async () => {
   try {
     const response = await api.get(sufix);
     return response.data;
@@ -11,7 +11,7 @@ exports.buscarMensagens = async () => {
   }
 };
 
-exports.buscarMensagemPorId = async (id_mensagem) => {
+const buscarMensagemPorId = async (id_mensagem) => {
   try {
     const response = await api.get(`${sufix}/${id_mensagem}`);
     return response.data;
@@ -21,7 +21,7 @@ exports.buscarMensagemPorId = async (id_mensagem) => {
   }
 };
 
-exports.adicionarMensagem = async (dadosMensagem) => {
+const adicionarMensagem = async (dadosMensagem) => {
   try {
     const response = await api.post(sufix, dadosMensagem);
     return response.data;
@@ -31,7 +31,7 @@ exports.adicionarMensagem = async (dadosMensagem) => {
   }
 };
 
-exports.editarMensagem = async (id_mensagem, mensagemAtualizada, token) => {
+const editarMensagem = async (id_mensagem, mensagemAtualizada, token) => {
   try {
     const response = await api.put(`${sufix}/${id_mensagem}`, mensagemAtualizada, {
       headers: { Authorization: `Bearer ${token}` },
@@ -43,7 +43,7 @@ exports.editarMensagem = async (id_mensagem, mensagemAtualizada, token) => {
   }
 };
 
-exports.deletarMensagem = async (id_mensagem, token) => {
+const deletarMensagem = async (id_mensagem, token) => {
   try {
     const response = await api.delete(`${sufix}/${id_mensagem}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -54,3 +54,6 @@ exports.deletarMensagem = async (id_mensagem, token) => {
     throw error;
   }
 };
+
+// Exportando todas de uma vez no final
+export { buscarMensagens, buscarMensagemPorId, adicionarMensagem, editarMensagem, deletarMensagem };
