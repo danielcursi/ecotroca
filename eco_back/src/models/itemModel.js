@@ -21,7 +21,7 @@ exports.addItem = async (data) => {
         titulo: data.titulo,
         descricao: data.descricao,
         condicao: data.condicao,
-        foto_uris: JSON.stringify(data.foto_uris || []), // garante string
+        foto_uris: data.foto_uris,
         id_usuario_proprietario: data.id_usuario_proprietario,
         status_item: data.status_item.toUpperCase(), // garante enum válido
       },

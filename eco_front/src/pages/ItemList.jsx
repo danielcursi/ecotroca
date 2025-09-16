@@ -30,24 +30,15 @@ export default function ItemList() {
 
   // Função para pegar a imagem correta
   const getImage = (foto_uris) => {
-    if (!foto_uris) return "https://via.placeholder.com/150"; // placeholder
+  if (!foto_uris) return "https://via.placeholder.com/150"; // fallback
 
-    try {
-      const fotosArray = Array.isArray(foto_uris)
-        ? foto_uris // já é array
-        : JSON.parse(foto_uris); // converte string JSON em array
+  // Se já for Data URL
+  if (foto_uris.startsWith("data:")) return foto_uris;
 
-      if (!fotosArray || fotosArray.length === 0) return "https://via.placeholder.com/150";
+  // Caso seja base64
+  return `data:image/jpeg;base64,${foto_uris}`;
+};
 
-      const primeiraFoto = fotosArray[0];
-      if (primeiraFoto.startsWith("http")) return primeiraFoto; // URL direta
-      return `data:image/jpeg;base64,${primeiraFoto}`; // base64
-    } catch {
-      // Se não for JSON válido, assume que é URL ou base64 direto
-      if (foto_uris.startsWith("http")) return foto_uris;
-      return `data:image/jpeg;base64,${foto_uris}`;
-    }
-  };
 
   return (
     <section style={{ width: "80%", margin: "0 auto" }}>

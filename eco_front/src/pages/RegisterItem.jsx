@@ -10,7 +10,8 @@ export default function NewItem() {
   const [description, setDescription] = useState("");
   const [tipe, setTipe] = useState("");
   const [estado, setEstado] = useState("");
-  const [images, setImages] = useState([]);
+  const [foto, setFoto] = useState(null); // apenas uma foto
+  const [preview, setPreview] = useState(null); // preview da foto
 
   const navigate = useNavigate();
 
@@ -36,17 +37,12 @@ export default function NewItem() {
       return;
     }
 
-    // Transformar imagens em base64
-    const foto_uris = images.length > 0
-      ? images.map((img) => img.base64.split(",")[1])
-      : [];
-
     const newItem = {
       id_categoria: parseInt(tipe),
       titulo: title,
       descricao: description,
       condicao: estado,
-      foto_uris: JSON.stringify(foto_uris),
+      foto_uris: foto, // já é string
       id_usuario_proprietario: idUsuario,
       status_item: "DISPONIVEL",
     };
@@ -58,7 +54,8 @@ export default function NewItem() {
       setDescription("");
       setTipe("");
       setEstado("");
-      setImages([]);
+      setFoto(null);
+      setPreview(null);
       navigate("/profile");
     } catch (error) {
       console.error("Erro no cadastro:", error.response?.data || error);
@@ -73,7 +70,8 @@ export default function NewItem() {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImages([{ base64: reader.result, preview: URL.createObjectURL(file) }]);
+      setFoto(reader.result); // string base64
+      setPreview(URL.createObjectURL(file));
     };
     reader.readAsDataURL(file);
   };
@@ -164,23 +162,22 @@ export default function NewItem() {
 
         <section className="photo">
           <div>
-            <h2>Fotos do Item</h2>
+            <h2>Foto do Item</h2>
             <p>Adicione apenas uma foto do seu item</p>
           </div>
 
           <input type="file" accept="image/*" onChange={handleImageChange} />
 
           <div className="photo-preview">
-            {images.map((img, index) => (
+            {preview && (
               <img
-                key={index}
-                src={img.preview}
-                alt={`Foto ${index + 1}`}
+                src={preview}
+                alt="Foto do item"
                 width="150"
                 height="200"
                 style={{ borderRadius: "8px", objectFit: "cover", marginRight: "8px" }}
               />
-            ))}
+            )}
           </div>
         </section>
       </section>

@@ -9,47 +9,39 @@ import CardDono from "../components/cardDetalheItem/CardDono";
 
 export default function NewItem() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams(); // pega o id da rota
 
   const [item, setItem] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // dono do item
+  const [loading, setLoading] = useState(true);
 
-  const voltarPagina = () => navigate(-1);
-
-  // Função para tratar imagem (URL ou base64)
-  const getImage = (foto_uris) => {
-    if (!foto_uris) return "https://via.placeholder.com/150";
-
-    try {
-      const fotosArray = JSON.parse(foto_uris); // transforma string JSON em array
-      if (!fotosArray || fotosArray.length === 0) return "https://via.placeholder.com/150";
-
-      const primeiraFoto = fotosArray[0];
-      if (primeiraFoto.startsWith("http")) return primeiraFoto; // URL direta
-      return `data:image/jpeg;base64,${primeiraFoto}`; // base64
-    } catch (err) {
-      console.warn("Erro ao parsear foto_uris:", err);
-      return "https://via.placeholder.com/150";
-    }
-  };
+  function voltarPagina() {
+    navigate(-1);
+  }
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const dadosItem = await buscarDadosItemId(id);
-        setItem(dadosItem);
+        const dados = await buscarDadosItemId(id);
+        setItem(dados);
 
-        const dadosUsuario = await buscarUsuarioPorId(dadosItem.id_usuario_proprietario);
-        setUser(dadosUsuario);
+        // Buscar dono do item
+        if (dados?.id_usuario_proprietario) {
+          const dono = await buscarUsuarioPorId(dados.id_usuario_proprietario);
+          setUser(dono);
+        }
+
+        setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar item ou dono:", error);
+        setLoading(false);
       }
     };
 
     fetchItem();
   }, [id]);
 
-  if (!item || !user) return <p>Carregando item...</p>;
+  if (loading) return <p>Carregando item...</p>;
 
   return (
     <>
@@ -66,13 +58,14 @@ export default function NewItem() {
 
       <div className="detail-item">
         <CardItem
-          img={getImage(item.foto_uris)}
-          title={item.titulo}
-          description={item.descricao}
-          category={item.condicao}
+          item={item} // Agora passamos o objeto inteiro
         />
 
-        <CardDono user={user.username} rota="/profile" />
+        {user ? (
+          <CardDono user={user.username || user.nome} rota="/profile" />
+        ) : (
+          <p>Carregando informações do dono...</p>
+        )}
       </div>
     </>
   );
