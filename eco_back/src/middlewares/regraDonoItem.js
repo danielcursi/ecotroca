@@ -4,6 +4,11 @@ const prisma = require("../prisma");
 async function verificarDonoItem(req, res, next) {
   const { id_item } = req.params; // Pega o ID do item passado na URL (ex: /itens/:id_item)
 
+  // Verifica se o usuário foi autenticado
+  if (!req.usuario || !req.usuario.id_usuario) {
+    return res.status(401).json({ error: "Usuário não autenticado" });
+  }
+
   // Busca o item no banco pelo ID
   const item = await prisma.item.findUnique({
     where: { id_item: parseInt(id_item) }, 
