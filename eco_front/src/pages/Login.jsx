@@ -39,33 +39,35 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Formato de e-mail inválido.");
-      return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setError("Formato de e-mail inválido.");
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const response = await loginUsuario({ email, senha: password });
+  setLoading(true);
+  try {
+    const response = await loginUsuario({ email, senha: password });
 
-      localStorage.setItem("tokenUser", response.token);
-      localStorage.setItem("usuario", JSON.stringify(response.usuario));
+    // Salva o token dentro do objeto usuario
+    const usuarioComToken = { ...response.usuario, token: response.token };
+    localStorage.setItem("usuario", JSON.stringify(usuarioComToken));
 
-      alert(`Bem-vindo, ${response.usuario.nome}!\nRedirecionando para o perfil...`);
-      navigate("/profile");
-    } catch (err) {
-      setError("Usuário não encontrado ou credenciais inválidas.");
-      console.error("Erro no login:", err);
-      setEmail("");
-      setPassword("");
-    } finally {
-      setLoading(false);
-    }
-  };
+    alert(`Bem-vindo, ${response.usuario.nome}!\nRedirecionando para o perfil...`);
+    navigate("/profile");
+  } catch (err) {
+    setError("Usuário não encontrado ou credenciais inválidas.");
+    console.error("Erro no login:", err);
+    setEmail("");
+    setPassword("");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <section className="login">
