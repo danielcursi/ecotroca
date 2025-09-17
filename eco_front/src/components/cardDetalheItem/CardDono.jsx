@@ -25,11 +25,8 @@ export default function CardDono({ user, rota }) {
       <div className="coluna">
         {/* Card do Dono */}
         <div className="cardDono">
-          <h2 style={{ fontWeight: "bold" }}>Informações do Dono</h2>
-          <h3 className="user">Nome: {user}</h3>
-          <button onClick={() => navigate(rota)} className="button">
-            Ver Perfil Completo
-          </button>
+          <h2 style={{ fontWeight: "bold" }}>Nome do dono do Item</h2>
+          <h3 className="user"> {user}</h3>
         </div>
 
         {/* Card de Enviar Mensagem */}
