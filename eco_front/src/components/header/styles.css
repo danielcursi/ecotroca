@@ -8,6 +8,7 @@ header {
   width: 70%;                   /* Header ocupa 70% da largura da tela */
 }
 
+
 /* === CONTAINER DA LOGO === */
 .logoContainer {
   color: inherit;               /* Herda a cor do pai */
@@ -25,41 +26,82 @@ header {
 }
 
 /* === ESTILO DA LOGO === */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+  font-size: 1.3rem;
+  font-family: 'Poppins', sans-serif;
+}
+
 .logo {
-  width: 40px;                  /* Largura da logo */
-  height: 40px;                 /* Altura da logo */
+  width: 48px;
+  height: 48px;
+  margin-right: 0.8rem;
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+}
+
+.logoContainer:hover .logo {
+  transform: scale(1.1);
 }
 
 /* === LINKS DA NAVEGAÇÃO === */
+nav {
+  display: flex;
+  gap: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
 nav a {
-  text-decoration: none;        /* Remove sublinhado */
-  color: #050608;               /* Cor do texto */
-  font-weight: 600;             /* Texto em negrito */
-  padding: 0 1.5rem;            /* Espaçamento lateral entre links */
+  position: relative;
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background-color: #22da66;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
 }
 
 nav a:hover {
-  color: #22da66;               /* Muda a cor no hover */
+  color: #22da66;
 }
-
 /* === BOTÃO DE MENU (MOBILE) === */
 .nav-btn {
-  padding: 5px;                 /* Espaçamento interno do botão */
-  cursor: pointer;              /* Cursor de mãozinha */
-  background-color: transparent;/* Sem fundo */
-  border: none;                 /* Remove borda */
-  outline: none;                /* Remove contorno ao clicar */
-  color: var(--textColor);      /* Usa variável para cor do texto */
-  visibility: hidden;           /* Esconde por padrão */
-  opacity: 0;                   /* Invisível por padrão */
-  font-size: 1.9rem;            /* Tamanho do ícone/texto */
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #111;
+  transition: color 0.3s ease;
 }
+
+.nav-btn:hover {
+  color: #22da66;
+}
+
 
 /* === Estilo do texto/ícone no Header === */
 header span {
   margin-left: 2rem;               /* Espaçamento lateral mais equilibrado */
   font-size: 1rem;                 /* Mantém tipografia consistente */
-  color: var(--textColor, #374150);/* Herda cor do tema com fallback */
+  color: var(--textColor, #010102);/* Herda cor do tema com fallback */
   font-weight: 500;                /* Peso intermediário para destacar */
   display: inline-block;           /* Garante que o espaçamento seja aplicado corretamente */
 }

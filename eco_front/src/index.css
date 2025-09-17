@@ -438,7 +438,7 @@
 
 /* === Tela de Login === */
 .login {
-  background: linear-gradient(135deg, #d8fae8 0%, #b8e8d8 100%);
+  background: linear-gradient(135deg, #68b38d 0%, #77af9b 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1233,4 +1233,43 @@
 }
 .card-body button:hover {
   background: #334155;
+}
+
+
+
+/* === Botão de Login (header/nav) === */
+.btn-login-header {
+  background-color: #059769;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-login-header:hover {
+  background-color: #04815a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(5, 151, 105, 0.3);
+}
+
+/* === Botão de Sair (header/nav) === */
+.btn-logout-header {
+  background-color: transparent;
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+  border-radius: 8px;
+  padding: 0.7rem 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout-header:hover {
+  background-color: #e74c3c;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
 }
