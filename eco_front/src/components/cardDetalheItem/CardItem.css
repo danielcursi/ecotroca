@@ -1,81 +1,103 @@
+/* ===== Card Item ===== */
 .cardItem {
-  padding: 10px;
-  background-color: #f9fafb;
-  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.137);
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   overflow: hidden;
   max-width: 40rem;
   height: 70vh;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.cardItem:hover {
-  transform: scale(1);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  position: relative;
-}
-
-.img {
-  border-radius: 10px;
-  height: 70%;
-  width: 100%;
-  object-fit: cover;
-  display: block;
-  margin-top: 2rem;
-}
-
-.title {
-  font-size: 2rem;
-  margin: 1rem 1rem 0.7rem 1rem;
-}
-
-.cardItem {
-  grid-column-start: 1/2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   color: #393c41;
-  font-size: 0.9rem;
-  text-align: start;
-  margin-left: 1rem;
-  display: inline-block;
-  margin-right: 10px;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
 }
 
+/* Hover card */
+.cardItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Imagem ===== */
+.img {
+  width: 100%;
+  height: auto; /* altura automática para mostrar a imagem inteira */
+  max-height: 60%; /* limita a imagem para não ocupar todo o card */
+  object-fit: contain; /* mantém proporção sem cortar */
+  object-position: center;
+  border-radius: 12px;
+  display: block;
+  margin-bottom: 1rem;
+  background-color: #f3f4f6; /* fundo neutro para imagens menores */
+  transition: transform 0.3s ease;
+}
+
+/* Hover imagem */
+.cardItem:hover .img {
+  transform: scale(1.03);
+}
+
+/* ===== Título ===== */
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+/* ===== Box de informações ===== */
 .box {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
-  padding: 5px;
-  margin: 2px;
   gap: 10px;
+  margin-bottom: 0.5rem;
 }
 
+/* ===== Categoria ===== */
 .category {
-  display: inline-block;
-  padding: 4px 10px;
-  border: 1px solid;
+  background-color: #e0f2f1;
+  color: #00796b;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
 }
 
+/* ===== Localização ===== */
 .location {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.85rem;
+  color: #757575;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
+/* ===== Descrição ===== */
 .description {
-  padding: 2px;
-  margin-left: 16px;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis; /* evita que a descrição quebre o card */
 }
 
+/* ===== Responsividade ===== */
 @media only screen and (max-width: 907px) {
-  .detail-item {
-    align-items: center;
+  .cardItem {
+    max-width: 90%;
+    height: auto;
   }
 
   .img {
-    height: 60%;
+    max-height: 50%;
+  }
+
+  .title {
+    font-size: 1.5rem;
   }
 }
