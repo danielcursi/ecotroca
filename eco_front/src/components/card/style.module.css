@@ -1,58 +1,74 @@
+/* style.module.css */
 .card {
-  background-color: #f9fafb;
-  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.137);
-  border-radius: 10px;
-  height: 24rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
   width: 18rem;
-  transition: all 0.3s ease;
+  height: 28rem; /* altura padrão do card */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
 }
 
 .card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  z-index: 2;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
 }
 
 .img {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  height: 50%;
   width: 100%;
-  object-fit: cover;
+  height: 12rem; /* altura da imagem no card */
+  object-fit: contain; /* mostra a imagem inteira sem cortar */
   object-position: center;
+  background-color: #f3f4f6; /* fundo neutro caso a imagem não ocupe toda a área */
 }
 
 .title {
-  font-size: 1rem;
-  margin: 1rem 1rem 0.7rem 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1rem;
+  color: #111827;
 }
 
-.card .description {
-  color: #393c41;
-  font-size: 0.9rem;
-  text-align: start;
-  margin-left: 1rem;
+.description {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin: 0 1rem 1rem 1rem;
+  line-height: 1.4;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* limita a 4 linhas */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 
 .location {
-  margin: 0.7rem 1rem 1rem 1rem;
-  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0 1rem 1rem 1rem;
 }
 
 .button {
-  background-color: #0f1729;
-  border: none;
-  border-radius: 10px;
+  background-color: #1f2937;
   color: #f9fafb;
-  cursor: pointer;
-  display: block;
-  font-size: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 500;
-  width: 90%;
-  margin: auto;
-  padding: 0.7rem;
+  padding: 0.7rem 0;
+  margin: 0 1rem 1rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover {
-  background-color: #0f1729de;
+  background-color: #111827;
+  transform: translateY(-2px);
 }
