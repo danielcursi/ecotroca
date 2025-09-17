@@ -1,55 +1,75 @@
-import api from './api';
+import api from "./api";
 
-const buscarDadosCategoria = async () => {
-   try{
-     const res = await api.get('/api/categoria');
-     return res.data;
-   } catch(error){
-     rethrow(error, 'Falhar ao listar categoria');
-   }
-};
-
-const buscarDadosCategoriaId = async (id_categoria) => {
-  try{
-    const res = await api.get(`/api/categoria/${id_categoria}`);
-    return res.data;
-  } catch (error){
-    rethrow(error, 'Error ao buscar categoria pelo id');
+// Buscar todas as categorias
+const buscarCategorias = async () => {
+  try {
+    const response = await api.get("/api/categorias");
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar categorias:", error);
+    throw error;
   }
 };
 
-const cadastrarCategoria = async (payload) => {
-  try{
-    const res = await api.post ('/api/categoria', payload);
-    return res.data;
-  } catch(error){
-    rethrow(error,'Falha ao cadastrar categoria');
+// Buscar categoria por ID
+const buscarCategoriaPorId = async (id_categoria) => {
+  try {
+    const response = await api.get(`/api/categorias/${id_categoria}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao buscar categoria ${id_categoria}:`, error);
+    throw error;
   }
 };
 
-const atualizarItem = async async(id_categoria, payload) => {
-  try{
-        const res = await api.put(`/api/categoria/${id_categoria}`, payload); 
-        return res.data;
-        console.log(res);
-  } catch (error){
-        rethrow(error, 'Falha ao atualizar categoria');
+// Adicionar nova categoria
+const cadastrarCategoria = async (categoria) => {
+  try {
+    const response = await api.post("/api/categorias", categoria);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao cadastrar categoria:", error);
+    throw error;
   }
 };
 
-const deletarItem = async (id_categoria) => {
-  try{
-    const res = await api.delete(`/api/categoria/${id_categoria`);
-    return res.status === 204 ? true : res.data;
-  } catch{
-        rethrow(error, 'Falha ao deletar categoria');
+// Atualizar categoria
+const atualizarCategoria = async (id_categoria, categoria) => {
+  try {
+    const response = await api.put(`/api/categorias/${id_categoria}`, categoria);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao atualizar categoria ${id_categoria}:`, error);
+    throw error;
   }
 };
 
-export default {
-    buscarDadosCategoria,
-    buscarDadosCategoriaId,
-    cadastrarCategoria,
-    atualizarCategoria,
-    deletarCategoria
+// Deletar categoria
+const deletarCategoria = async (id_categoria) => {
+  try {
+    await api.delete(`/api/categorias/${id_categoria}`);
+    return true;
+  } catch (error) {
+    console.error(`Erro ao deletar categoria ${id_categoria}:`, error);
+    throw error;
+  }
 };
+
+export {
+  buscarCategorias,
+  buscarCategoriaPorId,
+  cadastrarCategoria,
+  atualizarCategoria,
+  deletarCategoria,
+};
+
+
+/*
+router.get("/", getAllCategoriasHandler);
+router.get("/:id_categoria", getCategoriaByIdHandler);
+router.post("/", addCategoriaHandler);
+router.put("/:id_categoria", updateCategoriaHandler);
+router.delete("/:id_categoria", deleteCategoriaHandler);
+
+module.exports = router;
+ */
