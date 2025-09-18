@@ -1,9 +1,11 @@
 import api from './api';
 const sufix = '/api/mensagens';
 
-const buscarMensagens = async () => {
+const buscarMensagens = async (token) => {
   try {
-    const response = await api.get(sufix);
+    const response = await api.get(sufix, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     console.error(`Erro ao procurar mensagens: ${error.message}`);
@@ -11,9 +13,11 @@ const buscarMensagens = async () => {
   }
 };
 
-const buscarMensagemPorId = async (id_mensagem) => {
+const buscarMensagemPorId = async (id_mensagem, token) => {
   try {
-    const response = await api.get(`${sufix}/${id_mensagem}`);
+    const response = await api.get(`${sufix}/${id_mensagem}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     console.error(`Erro ao buscar mensagem por ID: ${error.message}`);
@@ -21,15 +25,18 @@ const buscarMensagemPorId = async (id_mensagem) => {
   }
 };
 
-const adicionarMensagem = async (dadosMensagem) => {
+const adicionarMensagem = async (dadosMensagem, token) => {
   try {
-    const response = await api.post(sufix, dadosMensagem);
+    const response = await api.post(sufix, dadosMensagem, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     console.error(`Erro ao adicionar mensagem: ${error.message}`);
     throw error;
   }
 };
+
 
 const editarMensagem = async (id_mensagem, mensagemAtualizada, token) => {
   try {
@@ -55,5 +62,4 @@ const deletarMensagem = async (id_mensagem, token) => {
   }
 };
 
-// Exportando todas de uma vez no final
 export { buscarMensagens, buscarMensagemPorId, adicionarMensagem, editarMensagem, deletarMensagem };

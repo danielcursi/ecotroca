@@ -9,6 +9,7 @@ import RegisterItem from "./pages/RegisterItem";
 import NewUser from "./pages/NewUser";
 
 import AlterarSenha from "./pages/AlterarSenha";
+import Inbox from "./pages/Inbox";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/AlterarSenha",
     element: <AlterarSenha />,
+  },
+  {
+    path: "/Inbox",
+    element: <Inbox />,
   }
 ]);
 

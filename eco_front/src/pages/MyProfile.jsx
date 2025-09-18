@@ -105,6 +105,7 @@ export default function MyProfile() {
             <button className="active">Meus Itens</button>
             <button>Favoritos</button>
             <button>Avaliações</button>
+            <button onClick={() => navigate("/inbox")}>Inbox</button>
           </div>
 
           <div className="items-header">
