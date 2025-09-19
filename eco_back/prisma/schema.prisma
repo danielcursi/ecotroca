@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma Schema atualizado
 
 generator client {
   provider = "prisma-client-js"
@@ -12,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 enum StatusItem {
@@ -29,37 +25,40 @@ enum StatusProposta {
 }
 
 model Usuario {
-  id_usuario    Int       @id @default(autoincrement())
+  id_usuario    Int             @id @default(autoincrement())
   nome          String
-  email         String    @unique
+  email         String          @unique
   senha_hash    String
   telefone      String
   cidade        String
   bairro        String
-  data_cadastro DateTime  @default(now())
+  data_cadastro DateTime        @default(now())
 
   // Relacionamentos
-  itens         Item[]         @relation("UsuarioItens")
+  itens         Item[]          @relation("UsuarioItens")
   propostas     PropostaTroca[] @relation("UsuarioPropostas")
-  mensagens     Mensagem[]     @relation("UsuarioMensagens")
+  mensagens     Mensagem[]      @relation("UsuarioMensagens")
 }
 
 model Item {
-  id_item                Int       @id @default(autoincrement())
+  id_item                 Int       @id @default(autoincrement())
   id_usuario_proprietario Int
-  id_categoria           Int
-  titulo                 String
-  descricao              String
-  condicao               String
-  foto_uris              String
-  data_publicacao        DateTime  @default(now())
-  status_item            StatusItem
+  id_categoria            Int
+  titulo                  String
+  descricao               String
+  condicao                String
+  foto_uris               String
+  data_publicacao         DateTime  @default(now())
+  status_item             StatusItem
 
   // Relacionamentos
-  usuario                Usuario   @relation("UsuarioItens", fields: [id_usuario_proprietario], references: [id_usuario])
-  categoria              Categoria @relation(fields: [id_categoria], references: [id_categoria])
-  propostas_oferecido    PropostaTroca[] @relation("ItemOferecido")
-  propostas_desejado     PropostaTroca[] @relation("ItemDesejado")
+  usuario                 Usuario   @relation("UsuarioItens", fields: [id_usuario_proprietario], references: [id_usuario])
+  categoria               Categoria @relation(fields: [id_categoria], references: [id_categoria])
+  propostas_oferecido     PropostaTroca[] @relation("ItemOferecido")
+  propostas_desejado      PropostaTroca[] @relation("ItemDesejado")
+
+  // Índice para otimizar buscas por status
+  @@index([status_item])
 }
 
 model Categoria {
@@ -72,30 +71,39 @@ model Categoria {
 }
 
 model PropostaTroca {
-  id_proposta             Int       @id @default(autoincrement())
+  id_proposta             Int            @id @default(autoincrement())
   id_item_oferecido       Int
   id_item_desejado        Int
   id_usuario_proponente   Int
-  status_proposta         StatusProposta
-  data_proposta           DateTime @default(now())
+  status_proposta         StatusProposta @default(PENDENTE)
+  data_proposta           DateTime       @default(now())
   data_atualizacao_status DateTime?
 
   // Relacionamentos
-  item_oferecido          Item     @relation("ItemOferecido", fields: [id_item_oferecido], references: [id_item])
-  item_desejado           Item     @relation("ItemDesejado", fields: [id_item_desejado], references: [id_item])
-  usuario_proponente      Usuario  @relation("UsuarioPropostas", fields: [id_usuario_proponente], references: [id_usuario])
+  item_oferecido          Item           @relation("ItemOferecido", fields: [id_item_oferecido], references: [id_item])
+  item_desejado           Item           @relation("ItemDesejado", fields: [id_item_desejado], references: [id_item])
+  usuario_proponente      Usuario        @relation("UsuarioPropostas", fields: [id_usuario_proponente], references: [id_usuario])
   mensagens               Mensagem[]
+
+  // Constraint para evitar propostas duplicadas
+  @@unique([id_item_oferecido, id_item_desejado, id_usuario_proponente, status_proposta])
+
+  // Índice para status
+  @@index([status_proposta])
 }
 
 model Mensagem {
-  id_mensagem        Int       @id @default(autoincrement())
-  id_proposta_troca  Int
+  id_mensagem         Int          @id @default(autoincrement())
+  id_proposta_troca   Int
   id_usuario_remetente Int
-  conteudo_mensagem  String
-  data_envio         DateTime  @default(now())
-  lida               Boolean   @default(false)
+  conteudo_mensagem   String
+  data_envio          DateTime     @default(now())
+  lida                Boolean      @default(false)
 
   // Relacionamentos
-  proposta_troca     PropostaTroca @relation(fields: [id_proposta_troca], references: [id_proposta])
-  usuario_remetente  Usuario       @relation("UsuarioMensagens", fields: [id_usuario_remetente], references: [id_usuario])
+  proposta_troca      PropostaTroca @relation(fields: [id_proposta_troca], references: [id_proposta])
+  usuario_remetente   Usuario       @relation("UsuarioMensagens", fields: [id_usuario_remetente], references: [id_usuario])
+
+  // Índice para otimizar buscas por mensagens não lidas de uma proposta
+  @@index([id_proposta_troca, lida])
 }

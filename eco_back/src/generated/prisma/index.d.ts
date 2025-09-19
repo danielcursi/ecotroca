@@ -7638,6 +7638,7 @@ export namespace Prisma {
 
   export type PropostaTrocaWhereUniqueInput = Prisma.AtLeast<{
     id_proposta?: number
+    id_item_oferecido_id_item_desejado_id_usuario_proponente_status_proposta?: PropostaTrocaId_item_oferecidoId_item_desejadoId_usuario_proponenteStatus_propostaCompoundUniqueInput
     AND?: PropostaTrocaWhereInput | PropostaTrocaWhereInput[]
     OR?: PropostaTrocaWhereInput[]
     NOT?: PropostaTrocaWhereInput | PropostaTrocaWhereInput[]
@@ -7651,7 +7652,7 @@ export namespace Prisma {
     item_desejado?: XOR<ItemScalarRelationFilter, ItemWhereInput>
     usuario_proponente?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
     mensagens?: MensagemListRelationFilter
-  }, "id_proposta">
+  }, "id_proposta" | "id_item_oferecido_id_item_desejado_id_usuario_proponente_status_proposta">
 
   export type PropostaTrocaOrderByWithAggregationInput = {
     id_proposta?: SortOrder
@@ -7963,7 +7964,7 @@ export namespace Prisma {
   }
 
   export type PropostaTrocaCreateInput = {
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     item_oferecido: ItemCreateNestedOneWithoutPropostas_oferecidoInput
@@ -7977,7 +7978,7 @@ export namespace Prisma {
     id_item_oferecido: number
     id_item_desejado: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     mensagens?: MensagemUncheckedCreateNestedManyWithoutProposta_trocaInput
@@ -8009,7 +8010,7 @@ export namespace Prisma {
     id_item_oferecido: number
     id_item_desejado: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
   }
@@ -8404,6 +8405,13 @@ export namespace Prisma {
   export type ItemScalarRelationFilter = {
     is?: ItemWhereInput
     isNot?: ItemWhereInput
+  }
+
+  export type PropostaTrocaId_item_oferecidoId_item_desejadoId_usuario_proponenteStatus_propostaCompoundUniqueInput = {
+    id_item_oferecido: number
+    id_item_desejado: number
+    id_usuario_proponente: number
+    status_proposta: $Enums.StatusProposta
   }
 
   export type PropostaTrocaCountOrderByAggregateInput = {
@@ -9203,7 +9211,7 @@ export namespace Prisma {
   }
 
   export type PropostaTrocaCreateWithoutUsuario_proponenteInput = {
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     item_oferecido: ItemCreateNestedOneWithoutPropostas_oferecidoInput
@@ -9215,7 +9223,7 @@ export namespace Prisma {
     id_proposta?: number
     id_item_oferecido: number
     id_item_desejado: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     mensagens?: MensagemUncheckedCreateNestedManyWithoutProposta_trocaInput
@@ -9391,7 +9399,7 @@ export namespace Prisma {
   }
 
   export type PropostaTrocaCreateWithoutItem_oferecidoInput = {
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     item_desejado: ItemCreateNestedOneWithoutPropostas_desejadoInput
@@ -9403,7 +9411,7 @@ export namespace Prisma {
     id_proposta?: number
     id_item_desejado: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     mensagens?: MensagemUncheckedCreateNestedManyWithoutProposta_trocaInput
@@ -9420,7 +9428,7 @@ export namespace Prisma {
   }
 
   export type PropostaTrocaCreateWithoutItem_desejadoInput = {
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     item_oferecido: ItemCreateNestedOneWithoutPropostas_oferecidoInput
@@ -9432,7 +9440,7 @@ export namespace Prisma {
     id_proposta?: number
     id_item_oferecido: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     mensagens?: MensagemUncheckedCreateNestedManyWithoutProposta_trocaInput
@@ -9829,7 +9837,7 @@ export namespace Prisma {
   }
 
   export type PropostaTrocaCreateWithoutMensagensInput = {
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
     item_oferecido: ItemCreateNestedOneWithoutPropostas_oferecidoInput
@@ -9842,7 +9850,7 @@ export namespace Prisma {
     id_item_oferecido: number
     id_item_desejado: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
   }
@@ -9963,7 +9971,7 @@ export namespace Prisma {
     id_proposta?: number
     id_item_oferecido: number
     id_item_desejado: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
   }
@@ -10067,7 +10075,7 @@ export namespace Prisma {
     id_proposta?: number
     id_item_desejado: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
   }
@@ -10076,7 +10084,7 @@ export namespace Prisma {
     id_proposta?: number
     id_item_oferecido: number
     id_usuario_proponente: number
-    status_proposta: $Enums.StatusProposta
+    status_proposta?: $Enums.StatusProposta
     data_proposta?: Date | string
     data_atualizacao_status?: Date | string | null
   }

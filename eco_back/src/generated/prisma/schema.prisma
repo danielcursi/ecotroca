@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma Schema atualizado
 
 generator client {
   provider      = "prisma-client-js"
@@ -60,6 +56,9 @@ model Item {
   categoria           Categoria       @relation(fields: [id_categoria], references: [id_categoria])
   propostas_oferecido PropostaTroca[] @relation("ItemOferecido")
   propostas_desejado  PropostaTroca[] @relation("ItemDesejado")
+
+  // Índice para otimizar buscas por status
+  @@index([status_item])
 }
 
 model Categoria {
@@ -76,7 +75,7 @@ model PropostaTroca {
   id_item_oferecido       Int
   id_item_desejado        Int
   id_usuario_proponente   Int
-  status_proposta         StatusProposta
+  status_proposta         StatusProposta @default(PENDENTE)
   data_proposta           DateTime       @default(now())
   data_atualizacao_status DateTime?
 
@@ -85,6 +84,11 @@ model PropostaTroca {
   item_desejado      Item       @relation("ItemDesejado", fields: [id_item_desejado], references: [id_item])
   usuario_proponente Usuario    @relation("UsuarioPropostas", fields: [id_usuario_proponente], references: [id_usuario])
   mensagens          Mensagem[]
+
+  // Constraint para evitar propostas duplicadas
+  @@unique([id_item_oferecido, id_item_desejado, id_usuario_proponente, status_proposta])
+  // Índice para status
+  @@index([status_proposta])
 }
 
 model Mensagem {
@@ -98,4 +102,7 @@ model Mensagem {
   // Relacionamentos
   proposta_troca    PropostaTroca @relation(fields: [id_proposta_troca], references: [id_proposta])
   usuario_remetente Usuario       @relation("UsuarioMensagens", fields: [id_usuario_remetente], references: [id_usuario])
+
+  // Índice para otimizar buscas por mensagens não lidas de uma proposta
+  @@index([id_proposta_troca, lida])
 }

@@ -1,80 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { cadastrarItem } from "../services/itemServico";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function NewItem() {
-  const [idUsuario, setIdUsuario] = useState(null);
-  const [loadingUsuario, setLoadingUsuario] = useState(true);
+  const { user } = useAuth(); // pega usuário logado e token
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tipe, setTipe] = useState("");
   const [estado, setEstado] = useState("");
-  const [foto, setFoto] = useState(null); // apenas uma foto
-  const [preview, setPreview] = useState(null); // preview da foto
-
-  const navigate = useNavigate();
-
-  // Buscar usuário logado
-  useEffect(() => {
-    const usuarioSalvo = localStorage.getItem("usuario");
-    if (usuarioSalvo) {
-      try {
-        const usuario = JSON.parse(usuarioSalvo);
-        setIdUsuario(usuario.id_usuario);
-      } catch (err) {
-        console.error("Erro ao parsear usuário:", err);
-      }
-    }
-    setLoadingUsuario(false);
-  }, []);
-
-  // Envio do formulário
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!idUsuario) {
-      alert("Usuário não identificado. Faça login novamente.");
-      return;
-    }
-
-    const newItem = {
-      id_categoria: parseInt(tipe),
-      titulo: title,
-      descricao: description,
-      condicao: estado,
-      foto_uris: foto, // já é string
-      id_usuario_proprietario: idUsuario,
-      status_item: "DISPONIVEL",
-    };
-
-    try {
-      await cadastrarItem(newItem);
-      alert("Item cadastrado com sucesso!");
-      setTitle("");
-      setDescription("");
-      setTipe("");
-      setEstado("");
-      setFoto(null);
-      setPreview(null);
-      navigate("/profile");
-    } catch (error) {
-      console.error("Erro no cadastro:", error.response?.data || error);
-      alert("Erro ao cadastrar item. Verifique os dados e tente novamente.");
-    }
-  };
-
-  // Preview da imagem
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFoto(reader.result); // string base64
-      setPreview(URL.createObjectURL(file));
-    };
-    reader.readAsDataURL(file);
-  };
+  const [foto, setFoto] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const categories = [
     "Eletrônicos",
@@ -90,7 +29,52 @@ export default function NewItem() {
 
   const conditions = ["Novo", "Como novo", "Bom estado", "Estado regular", "Para reparo"];
 
-  const voltarPagina = () => navigate(-1);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      alert("Usuário não identificado. Faça login novamente.");
+      return;
+    }
+
+    const newItem = {
+      id_categoria: parseInt(tipe),
+      titulo: title,
+      descricao: description,
+      condicao: estado,
+      foto_uris: foto,
+      id_usuario_proprietario: user.id_usuario,
+      status_item: "DISPONIVEL",
+    };
+
+    try {
+      // Envia item junto com token para autenticação
+      await cadastrarItem(newItem, user.token);
+      alert("Item cadastrado com sucesso!");
+      setTitle("");
+      setDescription("");
+      setTipe("");
+      setEstado("");
+      setFoto(null);
+      setPreview(null);
+      navigate("/profile");
+    } catch (error) {
+      console.error("Erro no cadastro:", error);
+      alert(error.message);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFoto(reader.result); // base64
+      setPreview(URL.createObjectURL(file));
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <section className="register">
@@ -101,11 +85,7 @@ export default function NewItem() {
         <form onSubmit={handleSubmit} className="form">
           <h3>Informações Básicas</h3>
 
-          {!loadingUsuario && !idUsuario && (
-            <p style={{ color: "red" }}>
-              Não foi possível identificar o usuário. Faça login novamente.
-            </p>
-          )}
+          {!user && <p style={{ color: "red" }}>Não foi possível identificar o usuário. Faça login novamente.</p>}
 
           <label>Título do item *</label>
           <input
@@ -151,11 +131,11 @@ export default function NewItem() {
             </div>
           </div>
 
-          <button type="submit" className="button-form" disabled={loadingUsuario}>
-            {loadingUsuario ? "Carregando..." : "Publicar Item"}
+          <button type="submit" className="button-form">
+            Publicar Item
           </button>
 
-          <button onClick={voltarPagina} type="button" className="button-form" style={{ marginBottom: "1rem" }}>
+          <button onClick={() => navigate(-1)} type="button" className="button-form" style={{ marginBottom: "1rem" }}>
             <FaArrowLeft /> Voltar
           </button>
         </form>

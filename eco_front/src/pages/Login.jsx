@@ -6,10 +6,12 @@ import logo from "../assets/Logo-colorida.png";
 import Button from "../components/button/Button";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUsuario } from "../services/usuarioServico";
+import { useAuth } from "../contexts/AuthContext"; // <--- novo
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // pega função de login do contexto
+
   const [useType, setType] = useState("password");
   const [icon, setIcon] = useState(false);
   const [email, setEmail] = useState("");
@@ -39,35 +41,26 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Formato de e-mail inválido.");
+      return;
+    }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    setError("Formato de e-mail inválido.");
-    return;
-  }
-
-  setLoading(true);
-  try {
-    const response = await loginUsuario({ email, senha: password });
-
-    // Salva o token dentro do objeto usuario
-    const usuarioComToken = { ...response.usuario, token: response.token };
-    localStorage.setItem("usuario", JSON.stringify(usuarioComToken));
-
-    alert(`Bem-vindo, ${response.usuario.nome}!\nRedirecionando para o perfil...`);
-    navigate("/profile");
-  } catch (err) {
-    setError("Usuário não encontrado ou credenciais inválidas.");
-    console.error("Erro no login:", err);
-    setEmail("");
-    setPassword("");
-  } finally {
-    setLoading(false);
-  }
-};
-
+    setLoading(true);
+    try {
+      const usuario = await login(email, password); // <--- usa AuthContext
+      alert(`Bem-vindo, ${usuario.nome}!`);
+      navigate("/profile");
+    } catch (err) {
+      setError("Usuário não encontrado ou credenciais inválidas.");
+      console.error("Erro no login:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="login">

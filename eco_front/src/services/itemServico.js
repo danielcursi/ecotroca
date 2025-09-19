@@ -20,10 +20,14 @@ export const buscarDadosItemId = async (id_item) => {
   }
 };
 
-// Cadastrar novo item
-export const cadastrarItem = async (payload) => {
+// Cadastrar novo item (agora com token)
+export const cadastrarItem = async (payload, token) => {
+  if (!token) throw new Error("Token não fornecido. Faça login novamente.");
+
   try {
-    const res = await api.post('/api/itens', payload);
+    const res = await api.post('/api/itens', payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (error) {
     console.error("Erro na API ao cadastrar item:", error.response?.data || error.message);
@@ -31,20 +35,28 @@ export const cadastrarItem = async (payload) => {
   }
 };
 
-// Atualizar item existente
-export const atualizarItem = async (id_item, payload) => {
+// Atualizar item existente (com token)
+export const atualizarItem = async (id_item, payload, token) => {
+  if (!token) throw new Error("Token não fornecido. Faça login novamente.");
+
   try {
-    const res = await api.put(`/api/itens/${id_item}`, payload);
+    const res = await api.put(`/api/itens/${id_item}`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (error) {
     throw new Error('Falha ao atualizar item: ' + error.message);
   }
 };
 
-// Deletar item
-export const deletarItem = async (id_item) => {
+// Deletar item (com token)
+export const deletarItem = async (id_item, token) => {
+  if (!token) throw new Error("Token não fornecido. Faça login novamente.");
+
   try {
-    const res = await api.delete(`/api/itens/${id_item}`);
+    const res = await api.delete(`/api/itens/${id_item}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.status === 204 ? true : res.data;
   } catch (error) {
     throw new Error('Falha ao deletar item: ' + error.message);

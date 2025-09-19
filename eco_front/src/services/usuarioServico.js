@@ -1,5 +1,18 @@
 import api from "./api";
 
+// Login de usuário
+export const loginUsuario = async (dados) => {
+  const response = await api.post("/api/usuarios/login", dados);
+
+  // Monta o usuário já com o token
+  const usuarioComToken = {
+    ...response.data.usuario,
+    token: response.data.token,
+  };
+
+  return usuarioComToken;
+};
+
 // Buscar todos os usuários
 const buscarUsuarios = async () => {
   try {
@@ -33,17 +46,6 @@ const cadastrarUsuario = async (dadosUsuario) => {
   }
 };
 
-// Login de usuário
-const loginUsuario = async (credenciais) => {
-  try {
-    const response = await api.post("/api/usuarios/login", credenciais);
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao fazer login:", error);
-    throw error;
-  }
-};
-
 // Atualizar usuário (precisa de autenticação/token)
 const atualizarUsuario = async (id_usuario, dadosUsuario, token) => {
   try {
@@ -73,7 +75,7 @@ const deletarUsuario = async (id_usuario, token) => {
 // Alterar senha (precisa de autenticação/token)
 const alterarSenha = async ({ senhaAtual, novaSenha }) => {
   try {
-    const token = localStorage.getItem("tokenUser"); // ou de onde você armazena
+    const token = localStorage.getItem("tokenUser"); // ajuste se necessário
     const response = await api.put(
       "/api/usuarios/alterar-senha",
       { senhaAtual, novaSenha },
@@ -88,7 +90,6 @@ const alterarSenha = async ({ senhaAtual, novaSenha }) => {
   }
 };
 
-
 // Resetar senha (usuário não logado, usando email)
 const resetarSenha = async ({ email, novaSenha }) => {
   try {
@@ -100,32 +101,12 @@ const resetarSenha = async ({ email, novaSenha }) => {
   }
 };
 
-
-
 export {
   buscarUsuarios,
   buscarUsuarioPorId,
   cadastrarUsuario,
-  loginUsuario,
   atualizarUsuario,
   deletarUsuario,
   alterarSenha,
   resetarSenha
 };
-
-
-
-/*// Rotas públicas
-
-app.use("/api/usuarios", usuarioRoutes);
-
-router.post("/", addUsuarioHandler);        // cadastro
-router.post("/login", loginUsuarioHandler); // login
-router.get("/", getAllUsuariosHandler);     // listar todos (opcionalmente pode ser privado)
-router.get("/:id_usuario", getUsuarioByIdHandler);
-
-// Rotas privadas (só usuário autenticado pode mexer)
-router.put("/:id_usuario", autenticar, updateUsuarioHandler);
-router.delete("/:id_usuario", autenticar, deleteUsuarioHandler); 
-
-*/
