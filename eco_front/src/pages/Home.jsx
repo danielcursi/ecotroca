@@ -1,9 +1,7 @@
 import { FaSearch, FaRecycle, FaUsers, FaBoxOpen } from "react-icons/fa";
 import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/button/Button";
-
 import Card from "../components/card/Card";
-
 import { buscarDadosItem } from "../services/itemServico";
 import { useEffect, useState } from "react";
 
@@ -15,13 +13,22 @@ export default function Home() {
     const fetchItems = async () => {
       try {
         const response = await buscarDadosItem();
-        setItems(response.data || response); 
+        const dados = response?.data ?? response;
+
+        if (Array.isArray(dados)) {
+          setItems(dados);
+        } else {
+          console.warn("Formato inesperado de dados:", dados);
+          setItems([]);
+        }
       } catch (err) {
         console.error("Erro ao buscar itens:", err);
+        setItems([]);
       } finally {
         setLoading(false);
       }
     };
+
     fetchItems();
   }, []);
 
@@ -30,9 +37,7 @@ export default function Home() {
       {/* === Banner === */}
       <section className="banner-home">
         <h1>Troque, Reutilize, Sustente</h1>
-        <p>
-          Uma plataforma para trocar itens de forma sustentável e consciente.
-        </p>
+        <p>Uma plataforma para trocar itens de forma sustentável e consciente.</p>
         <p>Dê nova vida aos seus objetos e encontre o que precisa.</p>
 
         <div className="container-search">
@@ -67,7 +72,7 @@ export default function Home() {
 
         {loading ? (
           <p>Carregando itens...</p>
-        ) : (
+        ) : Array.isArray(items) && items.length > 0 ? (
           <section className="section-cards">
             {items.slice(0, 4).map((item) => (
               <Card
@@ -79,15 +84,15 @@ export default function Home() {
               />
             ))}
           </section>
+        ) : (
+          <p>Nenhum item disponível no momento.</p>
         )}
       </section>
 
       {/* === Footer === */}
       <footer className="footer">
         <h2>Pronto para fazer parte da mudança?</h2>
-        <p>
-          Junte-se à nossa comunidade e contribua para um mundo mais sustentável
-        </p>
+        <p>Junte-se à nossa comunidade e contribua para um mundo mais sustentável</p>
         <Button
           to={"/item"}
           text={"Explorar itens"}

@@ -8,7 +8,7 @@ export const loginUsuario = async (dados) => {
   const usuarioComToken = {
     ...response.data.usuario,
     token: response.data.token,
-  };
+  };  
 
   return usuarioComToken;
 };
@@ -42,7 +42,7 @@ const cadastrarUsuario = async (dadosUsuario) => {
     return response.data;
   } catch (error) {
     console.error("Erro ao cadastrar usuário:", error);
-    throw error;
+    // throw error;
   }
 };
 

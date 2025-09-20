@@ -56,7 +56,7 @@ export default function Login() {
       navigate("/profile");
     } catch (err) {
       setError("Usuário não encontrado ou credenciais inválidas.");
-      console.error("Erro no login:", err);
+      // console.error("Erro no login:", err);
     } finally {
       setLoading(false);
     }

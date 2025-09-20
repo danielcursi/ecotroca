@@ -1,24 +1,43 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { adicionarMensagem } from '../../services/mensagemServico'
+import { adicionarMensagem } from "../../services/mensagemServico";
 import "./CardDono.css";
+import { buscarDadosItem } from "../../services/itemServico";
 
 export default function CardDono({ user, rota }) {
   const navigate = useNavigate();
   const [texto, setTexto] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [produtos, setProdutos] = useState([]);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try{
-      await adicionarMensagem(texto)
-    }catch(error) {
-      alert('Erro ao enviar mensagem para usúario')
+    try {
+      await adicionarMensagem(texto);
+    } catch (error) {
+      alert("Erro ao enviar mensagem para usúario");
       console.error(`Erro ao enviar mensagem ${error.message}`);
-      
     }
+  };
 
-  }
+  const abrirModalTroca = async () => {
+    try {
+      const response = await buscarDadosItem();
+      const lista = response.data || response;
+      // console.log("Produtos recebidos:", lista);
+      setProdutos(lista);
+      setShowModal(true);
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+    }
+  };
+
+  const proporTroca = (produto) => {
+    alert(`Você propôs troca com: ${produto.titulo}`);
+    confirm(`Você tem certeza que quer trocar ${produto.titulo}`)
+    setShowModal(false);
+  };
 
   return (
     <div className="container">
@@ -41,9 +60,15 @@ export default function CardDono({ user, rota }) {
             placeholder="Escreva uma mensagem para o dono do item..."
             className="box-message"
           ></textarea>
-          <button onClick={handleSubmit} className="button-message">Enviar Mensagem</button>
-          <button className="button-troca">Propor Troca</button>
+          <button onClick={handleSubmit} className="button-message">
+            Enviar Mensagem
+          </button>
+          <button onClick={abrirModalTroca} className="button-troca">
+            Propor Troca
+          </button>
         </div>
+
+        {/* Card de Dicas de Segurança */}
         <div className="cardSeguranca">
           <h2 style={{ fontWeight: "bold" }}>Dicas de Segurança</h2>
           <ul className="list">
@@ -54,7 +79,35 @@ export default function CardDono({ user, rota }) {
           </ul>
         </div>
       </div>
-      {/* Card de Dicas de Segurança */}
+
+
+      {/* Modal para propor troca */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Escolha um produto para propor troca</h2>
+            <ul>
+              {produtos.map((p) => (
+                <li
+                 key={p.id}
+                className="produto-item">
+                  {p.titulo}
+                  <button
+                    onClick={() => proporTroca(p)}
+                    className="btn-selecionar"
+                  >Selecionar</button>
+                </li>
+              ))}
+            </ul>
+            <button  onClick={() => setShowModal(false)} className="btn-fechar">
+              <img src="https://cdn-icons-png.flaticon.com/128/6276/6276642.png"
+               alt="close modal"
+               width={'30px'}
+               />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
