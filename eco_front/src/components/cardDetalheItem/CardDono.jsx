@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { adicionarMensagem } from "../../services/mensagemServico";
 import "./CardDono.css";
 import { buscarDadosItem } from "../../services/itemServico";
+import { useParams } from "react-router-dom";
 import { adicionarProposta } from "../../services/propostaServico";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function CardDono({ user, rota }) {
   const navigate = useNavigate();
   const [texto, setTexto] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [produtos, setProdutos] = useState([]);
-
+  const { id } = useParams();
+  // const { user } = useAuth() // pegar token do usuário logado
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,11 +38,24 @@ export default function CardDono({ user, rota }) {
   };
 
   const proporTroca = async (produto) => {
-    alert(`Você propôs troca com: ${produto.titulo}`);
-    confirm(`Você tem certeza que quer trocar ${produto.titulo}`)
-    // implementar lógica 
-    // const response = await adicionarProposta()
-    setShowModal(false);
+    try {
+      alert(`Você propôs troca com: ${produto.titulo}`);
+      confirm(`Você tem certeza que quer trocar ${produto.titulo}`)
+
+      const payload = {
+        id_item_oferecido: produto.id,
+        id_item_desejado: id,
+        mensagem_inicial: texto
+      }
+      // TODO passar token
+      // const response = await adicionarProposta(payload, user.token)
+      console.log(`URL ID ${id} | produto id ${produto.id_item} | nome ${produto.titulo} | mensagem: ${texto}`);
+      setShowModal(false);
+
+    }catch(error) {
+      console.error(`Erro ao Propor Troca ${error.message}`);
+      
+    }
   };
 
   return (
