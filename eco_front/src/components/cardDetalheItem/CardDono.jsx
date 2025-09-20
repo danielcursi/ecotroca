@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { adicionarMensagem } from "../../services/mensagemServico";
 import "./CardDono.css";
 import { buscarDadosItem } from "../../services/itemServico";
+import { adicionarProposta } from "../../services/propostaServico";
 
 export default function CardDono({ user, rota }) {
   const navigate = useNavigate();
@@ -33,9 +34,11 @@ export default function CardDono({ user, rota }) {
     }
   };
 
-  const proporTroca = (produto) => {
+  const proporTroca = async (produto) => {
     alert(`Você propôs troca com: ${produto.titulo}`);
     confirm(`Você tem certeza que quer trocar ${produto.titulo}`)
+    // implementar lógica 
+    // const response = await adicionarProposta()
     setShowModal(false);
   };
 
