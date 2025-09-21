@@ -162,3 +162,29 @@ header span {
     color: #5dbf81;             /* Cor ao passar o mouse */
   }
 }
+/* === BOTÃO DE LOGOUT === */
+.btn-logout {
+  background: #ef4444;          /* Vermelho chamativo */
+  color: #fff;                  /* Texto branco */
+  border: none;                 /* Sem borda */
+  padding: 0.5rem 1rem;         /* Espaçamento interno */
+  border-radius: 10px;          /* Cantos arredondados */
+  cursor: pointer;              /* Cursor pointer */
+  font-weight: 500;             /* Fonte semi-bold */
+  transition: all 0.3s ease;    /* Transição suave */
+}
+
+.btn-logout:hover {
+  background: #b91c1c;          /* Vermelho mais escuro ao passar o mouse */
+  transform: scale(1.05);       /* Pequena animação de escala */
+}
+
+/* === Ajuste do botão logout no mobile === */
+@media only screen and (max-width: 1100px) {
+  .btn-logout {
+    font-size: 1.2rem;          /* Texto maior para menu mobile */
+    padding: 0.7rem 1.2rem;     /* Maior espaçamento para tocar na tela */
+    width: 70%;                 /* Largura maior no menu lateral */
+    text-align: center;         /* Centraliza texto dentro do botão */
+  }
+}

@@ -1,53 +1,55 @@
 import { useEffect, useState } from "react";
-import { buscarMensagens, adicionarMensagem } from "../services/mensagemServico";
-import {
-  buscarPropostas,
-  aceitarProposta,
-  recusarProposta,
-  cancelarProposta,
+import { useAuth } from "../contexts/AuthContext";
+import { 
+  buscarMensagens, 
+  adicionarMensagem 
+} from "../services/mensagemServico";
+import { 
+  buscarPropostas, 
+  aceitarProposta, 
+  recusarProposta, 
+  cancelarProposta 
 } from "../services/propostaServico";
 import { buscarUsuarioPorId } from "../services/usuarioServico";
 import { buscarDadosItem } from "../services/itemServico";
+import "../css/inbox.css";
+
+
 
 export default function Inbox() {
-  const [usuarioLogado, setUsuarioLogado] = useState(null);
+  const { user: usuarioLogado } = useAuth(); 
   const [mensagens, setMensagens] = useState([]);
   const [propostas, setPropostas] = useState([]);
   const [usuarios, setUsuarios] = useState({});
   const [itens, setItens] = useState({});
   const [loading, setLoading] = useState(true);
-  const [novasMensagens, setNovasMensagens] = useState({}); // texto por proposta
+  const [novasMensagens, setNovasMensagens] = useState({}); 
 
   useEffect(() => {
-    const usuarioSalvo = localStorage.getItem("usuario");
-    if (!usuarioSalvo) {
+    if (!usuarioLogado) {
       setLoading(false);
       return;
     }
 
-    const usuario = JSON.parse(usuarioSalvo);
-
     const fetchInbox = async () => {
       try {
-        setUsuarioLogado(usuario);
-
-        // Mensagens
+        // Buscar todas as mensagens
         const todasMensagens = await buscarMensagens();
         const minhasMensagens = todasMensagens.filter(
           (m) =>
-            m.proposta_troca?.item_desejado?.id_usuario_proprietario === usuario.id_usuario ||
-            m.proposta_troca?.id_usuario_proponente === usuario.id_usuario
+            m.proposta_troca?.item_desejado?.id_usuario_proprietario === usuarioLogado.id_usuario ||
+            m.proposta_troca?.id_usuario_proponente === usuarioLogado.id_usuario
         );
 
-        // Propostas
+        // Buscar todas as propostas
         const todasPropostas = await buscarPropostas();
         const minhasPropostas = todasPropostas.filter(
           (p) =>
-            p.item_desejado.id_usuario_proprietario === usuario.id_usuario ||
-            p.id_usuario_proponente === usuario.id_usuario
+            p.item_desejado.id_usuario_proprietario === usuarioLogado.id_usuario ||
+            p.id_usuario_proponente === usuarioLogado.id_usuario
         );
 
-        // Buscar dados de usuários
+        // Buscar dados de usuários envolvidos
         const userIds = [
           ...new Set([
             ...minhasMensagens.map((m) => m.usuario_remetente.id_usuario),
@@ -61,7 +63,7 @@ export default function Inbox() {
         }
         setUsuarios(usuariosData);
 
-        // Buscar dados de itens
+        // Buscar dados dos itens
         const itemIds = [
           ...new Set([
             ...minhasPropostas.map((p) => p.id_item_desejado),
@@ -85,7 +87,7 @@ export default function Inbox() {
     };
 
     fetchInbox();
-  }, []);
+  }, [usuarioLogado]);
 
   if (!usuarioLogado) return <p>Faça login para acessar sua Inbox.</p>;
   if (loading) return <p>Carregando inbox...</p>;
@@ -96,7 +98,10 @@ export default function Inbox() {
     if (!texto) return;
 
     try {
-      await adicionarMensagem({ id_proposta_troca: id_proposta, conteudo_mensagem: texto });
+      await adicionarMensagem({ 
+        id_proposta_troca: id_proposta, 
+        conteudo_mensagem: texto 
+      });
       alert("Mensagem enviada!");
       setNovasMensagens({ ...novasMensagens, [id_proposta]: "" });
     } catch (error) {
@@ -107,8 +112,10 @@ export default function Inbox() {
 
   const handleAceitar = async (id) => {
     try {
-      await aceitarProposta(id);
-      setPropostas(propostas.filter((p) => p.id_proposta !== id));
+      await aceitarProposta(id, usuarioLogado.token);
+      setPropostas((prev) =>
+        prev.map((p) => (p.id_proposta === id ? { ...p, status_proposta: "ACEITA" } : p))
+      );
       alert("Proposta aceita!");
     } catch (error) {
       console.error(error);
@@ -118,8 +125,10 @@ export default function Inbox() {
 
   const handleRecusar = async (id) => {
     try {
-      await recusarProposta(id);
-      setPropostas(propostas.filter((p) => p.id_proposta !== id));
+      await recusarProposta(id, usuarioLogado.token);
+      setPropostas((prev) =>
+        prev.map((p) => (p.id_proposta === id ? { ...p, status_proposta: "RECUSADA" } : p))
+      );
       alert("Proposta recusada!");
     } catch (error) {
       console.error(error);
@@ -129,8 +138,8 @@ export default function Inbox() {
 
   const handleCancelar = async (id) => {
     try {
-      await cancelarProposta(id);
-      setPropostas(propostas.filter((p) => p.id_proposta !== id));
+      await cancelarProposta(id, usuarioLogado.token);
+      setPropostas((prev) => prev.filter((p) => p.id_proposta !== id));
       alert("Proposta cancelada!");
     } catch (error) {
       console.error(error);
@@ -160,7 +169,10 @@ export default function Inbox() {
       ) : (
         <ul className="propostas-list">
           {propostas.map((p) => (
-            <li key={p.id_proposta} style={{ marginBottom: "1.5rem", border: "1px solid #ccc", padding: "0.5rem" }}>
+            <li
+              key={p.id_proposta}
+              style={{ marginBottom: "1.5rem", border: "1px solid #ccc", padding: "0.5rem" }}
+            >
               <b>De:</b> {usuarios[p.id_usuario_proponente]?.nome || "Usuário"} <br />
               <b>Item Desejado:</b> {itens[p.id_item_desejado]?.titulo || p.id_item_desejado} <br />
               <b>Item Oferecido:</b> {itens[p.id_item_oferecido]?.titulo || p.id_item_oferecido} <br />
@@ -177,16 +189,19 @@ export default function Inbox() {
 
               <button onClick={() => handleEnviarMensagem(p.id_proposta)}>Enviar Mensagem</button>
 
-              {p.status_proposta === "PENDENTE" && usuarioLogado.id_usuario === p.item_desejado.id_usuario_proprietario && (
-                <>
-                  <button onClick={() => handleAceitar(p.id_proposta)}>Aceitar</button>
-                  <button onClick={() => handleRecusar(p.id_proposta)}>Recusar</button>
-                </>
-              )}
+              {/* Botões de ação condicionais */}
+              {p.status_proposta === "PENDENTE" &&
+                usuarioLogado.id_usuario === p.item_desejado.id_usuario_proprietario && (
+                  <>
+                    <button onClick={() => handleAceitar(p.id_proposta)}>Aceitar</button>
+                    <button onClick={() => handleRecusar(p.id_proposta)}>Recusar</button>
+                  </>
+                )}
 
-              {p.status_proposta === "PENDENTE" && usuarioLogado.id_usuario === p.id_usuario_proponente && (
-                <button onClick={() => handleCancelar(p.id_proposta)}>Cancelar</button>
-              )}
+              {p.status_proposta === "PENDENTE" &&
+                usuarioLogado.id_usuario === p.id_usuario_proponente && (
+                  <button onClick={() => handleCancelar(p.id_proposta)}>Cancelar</button>
+                )}
             </li>
           ))}
         </ul>

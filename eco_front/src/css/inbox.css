@@ -1,0 +1,147 @@
+/* =========================
+   Estilo Exclusivo para Inbox
+   ========================= */
+
+/* Container principal */
+.inbox-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937;
+}
+
+/* Títulos */
+.inbox-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #10b981;
+  padding-bottom: 0.5rem;
+}
+
+/* Listas de mensagens e propostas */
+.mensagens-list,
+.propostas-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Scroll customizado */
+.mensagens-list::-webkit-scrollbar,
+.propostas-list::-webkit-scrollbar {
+  width: 8px;
+}
+.mensagens-list::-webkit-scrollbar-thumb,
+.propostas-list::-webkit-scrollbar-thumb {
+  background-color: #10b981;
+  border-radius: 4px;
+}
+
+/* Mensagens estilo chat bubble */
+.mensagens-list li {
+  background-color: #ffffff;
+  margin-bottom: 0.8rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s;
+}
+.mensagens-list li:hover {
+  transform: translateY(-2px);
+}
+
+/* Propostas como cards */
+.propostas-list li {
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+.propostas-list li:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Negrito em campos importantes */
+.propostas-list b {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* Textarea de nova mensagem */
+textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  resize: vertical;
+  font-size: 0.95rem;
+  font-family: inherit;
+  margin: 0.5rem 0;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  border-color: #10b981;
+  outline: none;
+}
+
+/* Botões */
+button {
+  padding: 0.6rem 1rem;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+/* Botões específicos */
+button:nth-of-type(1) { /* Enviar mensagem */
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+button:nth-of-type(2) { /* Aceitar */
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+button:nth-of-type(3) { /* Recusar/Cancelar */
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .inbox-container {
+    padding: 1.5rem;
+  }
+  .inbox-container h2 {
+    font-size: 1.5rem;
+  }
+  textarea {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

@@ -63,9 +63,7 @@ export default function MyProfile() {
               <span className="badge">Usuário Verificado</span>
 
               <button className="btn-edit">Editar Perfil</button>
-              <button className="btn-logout-header" onClick={handleLogout}>
-                Sair
-              </button>
+              
 
               <div className="profile-info">
                 <p>📧 {profile?.email}</p>
@@ -102,9 +100,7 @@ export default function MyProfile() {
       {usuarioLogado && (
         <main className="profile-content">
           <div className="tabs">
-            <button className="active">Meus Itens</button>
-            <button>Favoritos</button>
-            <button>Avaliações</button>
+            
             <button onClick={() => navigate("/inbox")}>Inbox</button>
           </div>
 

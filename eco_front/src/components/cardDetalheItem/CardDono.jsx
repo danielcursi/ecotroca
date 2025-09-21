@@ -13,23 +13,29 @@ export default function CardDono({ user, rota }) {
   const [showModal, setShowModal] = useState(false);
   const [produtos, setProdutos] = useState([]);
   const { id } = useParams();
-  // const { user } = useAuth() // pegar token do usuário logado
+  const { user: usuarioLogado } = useAuth(); // pegar token do usuário logado
+
+  // Enviar mensagem simples
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!texto.trim()) return alert("Escreva uma mensagem antes de enviar.");
+
     try {
-      await adicionarMensagem(texto);
+      await adicionarMensagem({ conteudo_mensagem: texto });
+      alert("Mensagem enviada com sucesso!");
+      setTexto("");
     } catch (error) {
-      alert("Erro ao enviar mensagem para usúario");
+      alert("Erro ao enviar mensagem para usuário");
       console.error(`Erro ao enviar mensagem ${error.message}`);
     }
   };
 
+  // Abrir modal com lista de produtos
   const abrirModalTroca = async () => {
     try {
       const response = await buscarDadosItem();
       const lista = response.data || response;
-      // console.log("Produtos recebidos:", lista);
       setProdutos(lista);
       setShowModal(true);
     } catch (error) {
@@ -37,24 +43,30 @@ export default function CardDono({ user, rota }) {
     }
   };
 
+  // Propor troca
   const proporTroca = async (produto) => {
     try {
-      alert(`Você propôs troca com: ${produto.titulo}`);
-      confirm(`Você tem certeza que quer trocar ${produto.titulo}`)
+      if (!texto.trim()) return alert("Escreva uma mensagem inicial.");
+
+      const confirmacao = confirm(`Você tem certeza que quer trocar ${produto.titulo}?`);
+      if (!confirmacao) return;
 
       const payload = {
-        id_item_oferecido: produto.id,
+        id_item_oferecido: produto.id_item, // corrigido
         id_item_desejado: id,
         mensagem_inicial: texto
-      }
-      // TODO passar token
-      // const response = await adicionarProposta(payload, user.token)
-      console.log(`URL ID ${id} | produto id ${produto.id_item} | nome ${produto.titulo} | mensagem: ${texto}`);
-      setShowModal(false);
+      };
 
-    }catch(error) {
-      console.error(`Erro ao Propor Troca ${error.message}`);
-      
+      // Enviar proposta com token do usuário logado
+      await adicionarProposta(payload, usuarioLogado.token);
+
+      alert(`Você propôs troca com: ${produto.titulo}`);
+      setShowModal(false);
+      setTexto("");
+
+    } catch (error) {
+      console.error(`Erro ao Propor Troca: ${error.message}`);
+      alert("Erro ao propor troca. Verifique os dados e tente novamente.");
     }
   };
 
@@ -79,9 +91,7 @@ export default function CardDono({ user, rota }) {
             placeholder="Escreva uma mensagem para o dono do item..."
             className="box-message"
           ></textarea>
-          <button onClick={handleSubmit} className="button-message">
-            Enviar Mensagem
-          </button>
+          
           <button onClick={abrirModalTroca} className="button-troca">
             Propor Troca
           </button>
@@ -99,7 +109,6 @@ export default function CardDono({ user, rota }) {
         </div>
       </div>
 
-
       {/* Modal para propor troca */}
       {showModal && (
         <div className="modal-overlay">
@@ -108,21 +117,25 @@ export default function CardDono({ user, rota }) {
             <ul>
               {produtos.map((p) => (
                 <li
-                 key={p.id}
-                className="produto-item">
+                  key={p.id_item} // corrigido
+                  className="produto-item"
+                >
                   {p.titulo}
                   <button
                     onClick={() => proporTroca(p)}
                     className="btn-selecionar"
-                  >Selecionar</button>
+                  >
+                    Selecionar
+                  </button>
                 </li>
               ))}
             </ul>
-            <button  onClick={() => setShowModal(false)} className="btn-fechar">
-              <img src="https://cdn-icons-png.flaticon.com/128/6276/6276642.png"
-               alt="close modal"
-               width={'30px'}
-               />
+            <button onClick={() => setShowModal(false)} className="btn-fechar">
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/6276/6276642.png"
+                alt="close modal"
+                width={"30px"}
+              />
             </button>
           </div>
         </div>
